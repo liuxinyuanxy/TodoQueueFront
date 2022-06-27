@@ -1,4 +1,7 @@
 const prefix = "http://124.221.92.18:1323";
+
+
+
 function GenerateFormDataFromObject(obj) {
     let result = new FormData()
     for (let item in obj) {
@@ -14,4 +17,5 @@ function Fetch(url, method, body) {
         body: body
     })
 }
-export {GenerateFormDataFromObject, Fetch}
+
+export { GenerateFormDataFromObject, Fetch }
