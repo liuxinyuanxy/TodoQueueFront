@@ -3,6 +3,7 @@ import {
     FormError,
     FormStrategy,
     FormControl,
+    ValidateOption,
     Input,
     Validators,
     useFormChild,
@@ -58,7 +59,7 @@ function FormDate() {
     const onChangeDate = (value) => input.value = value
     return (
         <FormControl
-            label="Ddl:"
+            label="Ddl"
             name="Ddl"
         >
             <DatePicker
@@ -71,6 +72,70 @@ function FormDate() {
         </FormControl>
     )
 }
+function FormSpent() {
+    const input = Form.useField("SpentT","");
+    return (
+        <FormControl
+            label="已花费时间"
+            name="SpentT"
+        >
+            <Input value={input.value} widthSize="xs" disabled />
+        </FormControl>
+    )
+}
+function FormSubtask(props) {
+    console.log(props.child.current)
+    // props.child.patchValue({title:"fuck you", done: false})
+    // const onChangeVal = (value) => input.value.title = value
+    // return (
+    //     <FormControl
+    //         label={title}
+    //     >
+    //         <Input
+    //             value={input.value.title}
+    //             onChange={onChangeVal}
+    //         />
+    //     </FormControl>
+    // )
+}
+function FormSubtasks() {
+    const model = Form.useFieldArray("Subtasks", [
+        Validators.maxLength(20, '最多添加 20 项'),
+    ]);
+    const addSubtask = useCallback(() => {
+        model.push({title:"", done:false});
+        model.validate(ValidateOption.IncludeUntouched);
+    }, []);
+    return (
+        <>
+            <Button onClick={addSubtask} className="add-btn">
+                添加子任务
+            </Button>
+            <ul>
+                {model.children.map((child, index) =>
+                {
+                    return (
+                    <li key={child.id} className="Subtask">
+                        <FormSubtask
+                            title={`子任务${index + 1}：`}
+                            child={child}
+                        />
+                        <button
+                            className="del-btn"
+                            onClick={() => {
+                                model.splice(index, 1);
+                                model.validate();
+                            }}
+                        >
+              删除该子任务
+            </button>
+                    </li>
+                )})}
+            </ul>
+            <FormError style={{ marginLeft: 128 }}>{model.error?.message}</FormError>
+        </>
+    );
+}
 function TodoForm(props) {
     const form = Form.useForm(FormStrategy.View);
     utils.Fetch("/api/todo/get?id="+ props.id, "GET").then(res => {
@@ -79,10 +144,7 @@ function TodoForm(props) {
             closeDialog(props.title)
         } else {
             res.json().then(res => {
-                console.log(form.getValue())
                 form.initialize(res.Msg)
-                console.log(form.getValue())
-                console.log(res.Msg)
             })
         }
     })
@@ -98,20 +160,19 @@ function TodoForm(props) {
                 validators={[Validators.required('请填写标题')]}
             />
             <FormDate />
+            <FormInputField
+                name="EstimatedT"
+                label="预计耗时"
+            />
+            <FormSpent />
+            {/*<FormSubtasks />*/}
             <div className="zent-form-actions">
                 <Button type="primary" onClick={() =>
                 {
                     console.log(form.getValue())
-                //     utils.Fetch(`/api/user/login`, 'POST', utils.GenerateFormDataFromObject(form.getValue())).then(res => {
-                //         if (res.status !== 200) {
-                //             res.json().then(res => Notify.error(res.Msg))
-                //         } else {
-                //             closeDialog(props.title)
-                //         }
-                //     })
                 }
                 }>
-                    登录
+                    提交
                 </Button>
             </div>
         </Form>
@@ -121,14 +182,19 @@ function TodoForm(props) {
 function editButton(id, title) {
     return () => openDialog({
         dialogId: title,
-        title: "注册",
+        title: "Todo " + title,
         children: <>  <TodoForm id={id} title={title}/> </>,
-        footer: (<> <Button onClick={() => closeDialog(title)}>关闭</Button> </>)
+        footer: (<> <Button onClick={() => closeDialog(title)}>关闭</Button> </>),
+        style: {
+            position:"absolute",
+            width:"90%",
+            left:"5%",
+            top:"2%",
+        }
     })
 }
 
 function TodoCard(props) {
-    console.log(props)
     return (
         <Card><div>
             <Button onClick={editButton(props.id, props.title)}> 编辑 </Button>
