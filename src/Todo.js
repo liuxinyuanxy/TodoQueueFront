@@ -1,22 +1,17 @@
 import {
     Form,
-    FormError,
     FormStrategy,
     FormControl,
-    ValidateOption,
     Input,
     Validators,
-    useFormChild,
     Button,
     Card,
     Dialog,
     Notify,
     DatePicker,
-    FormDatePickerField,
-    FormCombinedDateRangePickerField,
     FormInputField,
 } from 'zent';
-import React, {Component, useCallback} from "react";
+import React from "react";
 import 'zent/css/index.css';
 import * as utils from "./utils";
 
@@ -55,7 +50,7 @@ function deleteButton(id, title) {
 
 
 function FormDate() {
-    const input = Form.useField("Ddl","");
+    const input = Form.useField("Ddl", "");
     const onChangeDate = (value) => input.value = value
     return (
         <FormControl
@@ -73,7 +68,7 @@ function FormDate() {
     )
 }
 function FormSpent() {
-    const input = Form.useField("SpentT","");
+    const input = Form.useField("SpentT", "");
     return (
         <FormControl
             label="已花费时间"
@@ -83,62 +78,62 @@ function FormSpent() {
         </FormControl>
     )
 }
-function FormSubtask(props) {
-    console.log(props.child.current)
-    // props.child.patchValue({title:"fuck you", done: false})
-    // const onChangeVal = (value) => input.value.title = value
-    // return (
-    //     <FormControl
-    //         label={title}
-    //     >
-    //         <Input
-    //             value={input.value.title}
-    //             onChange={onChangeVal}
-    //         />
-    //     </FormControl>
-    // )
-}
-function FormSubtasks() {
-    const model = Form.useFieldArray("Subtasks", [
-        Validators.maxLength(20, '最多添加 20 项'),
-    ]);
-    const addSubtask = useCallback(() => {
-        model.push({title:"", done:false});
-        model.validate(ValidateOption.IncludeUntouched);
-    }, []);
-    return (
-        <>
-            <Button onClick={addSubtask} className="add-btn">
-                添加子任务
-            </Button>
-            <ul>
-                {model.children.map((child, index) =>
-                {
-                    return (
-                    <li key={child.id} className="Subtask">
-                        <FormSubtask
-                            title={`子任务${index + 1}：`}
-                            child={child}
-                        />
-                        <button
-                            className="del-btn"
-                            onClick={() => {
-                                model.splice(index, 1);
-                                model.validate();
-                            }}
-                        >
-              删除该子任务
-            </button>
-                    </li>
-                )})}
-            </ul>
-            <FormError style={{ marginLeft: 128 }}>{model.error?.message}</FormError>
-        </>
-    );
-}
+// function FormSubtask(props) {
+//     console.log(props.child.current)
+//     props.child.patchValue({title:"fuck you", done: false})
+//     const onChangeVal = (value) => input.value.title = value
+//     return (
+//         <FormControl
+//             label={title}
+//         >
+//             <Input
+//                 value={input.value.title}
+//                 onChange={onChangeVal}
+//             />
+//         </FormControl>
+//     )
+// }
+// function FormSubtasks() {
+//     const model = Form.useFieldArray("Subtasks", [
+//         Validators.maxLength(20, '最多添加 20 项'),
+//     ]);
+//     const addSubtask = useCallback(() => {
+//         model.push({title:"", done:false});
+//         model.validate(ValidateOption.IncludeUntouched);
+//     }, []);
+//     return (
+//         <>
+//             <Button onClick={addSubtask} className="add-btn">
+//                 添加子任务
+//             </Button>
+//             <ul>
+//                 {model.children.map((child, index) =>
+//                 {
+//                     return (
+//                     <li key={child.id} className="Subtask">
+//                         <FormSubtask
+//                             title={`子任务${index + 1}：`}
+//                             child={child}
+//                         />
+//                         <button
+//                             className="del-btn"
+//                             onClick={() => {
+//                                 model.splice(index, 1);
+//                                 model.validate();
+//                             }}
+//                         >
+//               删除该子任务
+//             </button>
+//                     </li>
+//                 )})}
+//             </ul>
+//             <FormError style={{ marginLeft: 128 }}>{model.error?.message}</FormError>
+//         </>
+//     );
+// }
 function TodoForm(props) {
     const form = Form.useForm(FormStrategy.View);
-    utils.Fetch("/api/todo/get?id="+ props.id, "GET").then(res => {
+    utils.Fetch("/api/todo/get?id=" + props.id, "GET").then(res => {
         if (res.status !== 200) {
             res.json().then(res => Notify.error(res.Msg))
             closeDialog(props.title)
@@ -167,8 +162,7 @@ function TodoForm(props) {
             <FormSpent />
             {/*<FormSubtasks />*/}
             <div className="zent-form-actions">
-                <Button type="primary" onClick={() =>
-                {
+                <Button type="primary" onClick={() => {
                     console.log(form.getValue())
                 }
                 }>
@@ -183,13 +177,13 @@ function editButton(id, title) {
     return () => openDialog({
         dialogId: title,
         title: "Todo " + title,
-        children: <>  <TodoForm id={id} title={title}/> </>,
+        children: <>  <TodoForm id={id} title={title} /> </>,
         footer: (<> <Button onClick={() => closeDialog(title)}>关闭</Button> </>),
         style: {
-            position:"absolute",
-            width:"90%",
-            left:"5%",
-            top:"2%",
+            position: "absolute",
+            width: "90%",
+            left: "5%",
+            top: "2%",
         }
     })
 }
