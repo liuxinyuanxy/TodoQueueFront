@@ -42,7 +42,7 @@ function RegisterForm() {
                     closeDialog(registerID)
                 })
             }
-        })
+        }))
     }, []);
     return (
         <Form

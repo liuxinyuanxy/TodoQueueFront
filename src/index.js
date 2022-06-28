@@ -1,11 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import TodoCard from './Todo';
+// import TodoCard from './Todo';
+import TodoList from './List'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <TodoCard id={4} title={"qwq"}/>
+   <TodoList />
   </React.StrictMode>
 );
 

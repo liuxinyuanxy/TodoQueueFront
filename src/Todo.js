@@ -16,8 +16,13 @@ import {
 import React, {useCallback} from "react";
 import 'zent/css/index.css';
 import * as utils from "./utils";
-
+let refresher
 const { openDialog, closeDialog } = Dialog;
+
+function CloseDialog(title) {
+    refresher()
+    closeDialog(title)
+}
 
 function FormDate() {
     const input = Form.useField("Ddl", "");
@@ -101,7 +106,8 @@ function TodoForm(props) {
                 res.json().then(res => Notify.error(res.Msg))
             } else {
                 Notify.success("success")
-                closeDialog(props.title)
+                refresher
+                CloseDialog(props.title)
             }
         })
     }, []);
@@ -109,7 +115,7 @@ function TodoForm(props) {
     utils.Fetch("/api/todo/get?id=" + props.id, "GET").then(res => {
         if (res.status !== 200) {
             res.json().then(res => Notify.error(res.Msg))
-            closeDialog(props.title)
+            CloseDialog(props.title)
         } else {
             res.json().then(res => {
                 form.initialize(res.Msg)
@@ -145,13 +151,14 @@ function TodoForm(props) {
     );
 }
 
-function deleteTodo(id) {
+function deleteTodo(id, title) {
     utils.Fetch("/api/todo/delete?id=" + id, "POST").then(res => {
         if (res.status !== 200) {
             res.json().then(res => Notify.error(res.Msg))
         } else {
             res.json().then(res => Notify.success(res.Msg))
         }
+        CloseDialog(title)
     })
 }
 function deleteButton(id, title) {
@@ -162,10 +169,9 @@ function deleteButton(id, title) {
             children: <div> 您是否要删除Todo: {title} </div>,
             footer: (
                 <>
-                    <Button type="primary" onClick={() => closeDialog(title)}> 取消 </Button>
+                    <Button type="primary" onClick={() => CloseDialog(title)}> 取消 </Button>
                     <Button onClick={() => {
-                        deleteTodo(id)
-                        closeDialog(title)
+                        deleteTodo(id, title)
                     }}>
                         确定
                     </Button>
@@ -179,7 +185,7 @@ function editButton(id, title) {
         dialogId: title,
         title: "Todo " + title,
         children: <>  <TodoForm id={id} title={title} /> </>,
-        footer: (<> <Button onClick={() => closeDialog(title)}>关闭</Button> </>),
+        footer: (<> <Button onClick={() => CloseDialog(title)}>关闭</Button> </>),
         style: {
             position: "absolute",
             width: "90%",
@@ -190,6 +196,7 @@ function editButton(id, title) {
 }
 
 function TodoCard(props) {
+    refresher = props.refresher
     return (
         <Card><div>
             {props.title}
@@ -204,7 +211,7 @@ function TodoCard(props) {
 //     utils.Fetch("/api/todo/get?id=" + props.id, "GET").then(res => {
 //         if (res.status !== 200) {
 //             res.json().then(res => Notify.error(res.Msg))
-//             closeDialog(props.title)
+//             CloseDialog(props.title)
 //         } else {
 //             res.json().then(res => {
 //                 form.initialize(res.Msg)

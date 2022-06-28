@@ -1,6 +1,6 @@
 import React from 'react';
 import * as utils from './utils'
-import { Sortable } from 'zent'
+import { Sortable, Card } from 'zent'
 import TodoCard from './Todo'
 import cx from 'classnames';
 import 'zent/css/index.css';
@@ -24,7 +24,7 @@ class TodoList extends React.Component {
   }
 
   processTodoList(todolist) {
-    console.log(todolist)
+    // console.log(todolist)
     const list = todolist.slice()
     let cnt = 0, p = []
     p[0] = -1
@@ -75,10 +75,17 @@ class TodoList extends React.Component {
   }
 
   renderTodo(id, title) {
+    const style = {
+      "background-color": "#69A794",
+      "height": "20px"
+    }
+    
     if (id <= 0) {
-      return ("---------")
+      return (<Card  style={style}>{title}</Card>)
     } else {
-      return (<TodoCard id={id} title={title} refresher={() => this.refresh()} />)
+      return (<TodoCard id={id}
+        title={title}
+        refresher={() => this.refresh()} />)
     }
   }
 
@@ -90,6 +97,7 @@ class TodoList extends React.Component {
         onChange={this.handleChange}
         filterClass="item-disabled"
         onMove={this.onMove}
+        scrollSpeed={20}
       >
 
         {
@@ -149,7 +157,7 @@ async function queryTodoList() {
     if (datas[i].priority > tp) {
 
       ret.push({
-        title: "---",
+        title: "",
         id: -1 * tp,
         priority: tp,
       })
