@@ -9,12 +9,20 @@ function GenerateFormDataFromObject(obj) {
     }
     return result
 }
-function Fetch(url, method, body) {
-    return fetch(prefix + url, {
+function Fetch(url, method, body, type) {
+    return type == undefined ? fetch(prefix + url, {
         method: method,
         mode: 'cors',
         headers:{
             "Content-Type":"application/json",
+        },
+        credentials: "same-origin",
+        body: body
+    }) : fetch(prefix + url, {
+        method: method,
+        mode: 'cors',
+        headers: {
+            "Content-type" : type,
         },
         credentials: "same-origin",
         body: body
