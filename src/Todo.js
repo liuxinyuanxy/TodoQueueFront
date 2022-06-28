@@ -10,6 +10,7 @@ import {
     Notify,
     DatePicker,
     FormInputField,
+    FormNumberInputField,
     ValidateOption,
     FormError,
 } from 'zent';
@@ -136,9 +137,10 @@ function TodoForm(props) {
                 validators={[Validators.required('请填写标题')]}
             />
             <FormDate />
-            <FormInputField
+            <FormNumberInputField
                 name="EstimatedT"
                 label="预计耗时"
+                normalizeBeforeSubmit={value => Number(value)}
             />
             <FormSpent />
             <FormSubtasks />
@@ -206,46 +208,119 @@ function TodoCard(props) {
     )
 }
 
-// function newTodo() {
-//     const form = Form.useForm(FormStrategy.View);
-//     utils.Fetch("/api/todo/get?id=" + props.id, "GET").then(res => {
-//         if (res.status !== 200) {
-//             res.json().then(res => Notify.error(res.Msg))
-//             CloseDialog(props.title)
-//         } else {
-//             res.json().then(res => {
-//                 form.initialize(res.Msg)
-//             })
-//         }
-//     })
-//     return (
-//         <Form
-//             form={form}
-//             layout="horizontal"
-//             scrollToError
-//         >
-//             <FormInputField
-//                 name="Title"
-//                 label="标题"
-//                 validators={[Validators.required('请填写标题')]}
-//             />
-//             <FormDate />
-//             <FormInputField
-//                 name="EstimatedT"
-//                 label="预计耗时"
-//             />
-//             <FormSpent />
-//             <FormSubtasks />
-//             <div className="zent-form-actions">
-//                 <Button type="primary" onClick={() => {
-//                     console.log(form.getValue())
-//                 }
-//                 }>
-//                     提交
-//                 </Button>
-//             </div>
-//         </Form>
-//     );
-// }
+function NewTodo() {
+    const form = Form.useForm(FormStrategy.View);
+    const onSubmit = React.useCallback(form => {
+        const value = form.getSubmitValue();
+        console.log(value)
+        utils.Fetch("/api/todo/new", "POST", JSON.stringify(value), "application/json").then(res => {
+            if (res.status !== 200) {
+                res.json().then(res => Notify.error(res.Msg))
+            } else {
+                Notify.success("success")
+            }
+        })
+    }, []);
+    const onSubmitFail = () => {Notify.error("有字段为空，表单不合法！")}
+    return (
+        <Form
+            form={form}
+            layout="horizontal"
+            scrollToError
+            onSubmit={onSubmit}
+            onSubmitFail={onSubmitFail}
+        >
+            <FormInputField
+                name="Title"
+                label="标题"
+                validators={[Validators.required('请填写标题')]}
+            />
+            <FormDate />
+            <FormNumberInputField
+                name="Priority"
+                label="优先级："
+                defaultValue={4}
+                normalizeBeforeSubmit={value => Number(value)}
+                props={{
+                    showStepper: true,
+                    min:1,
+                    max:4,
+                }}
+            />
+            <FormNumberInputField
+                name="EstimatedT"
+                label="预计耗时"
+                normalizeBeforeSubmit={value => Number(value)}
+                props={{
+                    showStepper: true,
+                    min:0,
+                }}
+            />
+            <FormSubtasks />
+            <div className="zent-form-actions">
+                <Button type="primary" onClick={() => {form.submit()}}>
+                    提交
+                </Button>
+            </div>
+        </Form>
+    );
+}
+function NewTemplate() {
+    const form = Form.useForm(FormStrategy.View);
+    const onSubmit = React.useCallback(form => {
+        const value = form.getValue();
+        console.log(value)
+        utils.Fetch("/api/template/add", "POST", JSON.stringify(value), "application/json").then(res => {
+            if (res.status !== 200) {
+                res.json().then(res => Notify.error(res.Msg))
+            } else {
+                Notify.success("success")
+            }
+        })
+    }, []);
+    const onSubmitFail = () => {Notify.error("有字段为空，表单不合法！")}
 
-export default TodoCard
+    return (
+        <Form
+            form={form}
+            layout="horizontal"
+            scrollToError
+            onSubmit={onSubmit}
+            onSubmitFail={onSubmitFail}
+        >
+            <FormInputField
+                name="Title"
+                label="标题"
+                validators={[Validators.required('请填写标题')]}
+            />
+            <FormNumberInputField
+                name="Priority"
+                label="优先级："
+                defaultValue={4}
+                normalizeBeforeSubmit={value => Number(value)}
+                props={{
+                    showStepper: true,
+                    min:1,
+                    max:4,
+                }}
+            />
+            <FormNumberInputField
+                name="EstimatedT"
+                label="预计耗时"
+                normalizeBeforeSubmit={value => Number(value)}
+                props={{
+                    showStepper: true,
+                    min:0,
+                }}
+            />
+            <FormSubtasks />
+            <div className="zent-form-actions">
+                <Button type="primary" onClick={() => {form.submit()}}>
+                    提交
+                </Button>
+            </div>
+        </Form>
+    );
+}
+
+export {NewTemplate, NewTodo, TodoCard}
