@@ -191,6 +191,7 @@ function editButton(id, title) {
 function TodoCard(props) {
     return (
         <Card><div>
+            {props.title}
             <Button onClick={editButton(props.id, props.title)}> 编辑 </Button>
             <Button onClick={deleteButton(props.id, props.title)}> 删除 </Button>
         </div> </Card>

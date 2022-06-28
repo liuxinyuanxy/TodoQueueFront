@@ -13,6 +13,9 @@ function Fetch(url, method, body) {
     return fetch(prefix + url, {
         method: method,
         mode: 'cors',
+        headers:{
+            "Content-Type":"application/json",
+        },
         credentials: "same-origin",
         body: body
     })

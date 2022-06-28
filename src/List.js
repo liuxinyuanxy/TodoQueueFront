@@ -1,6 +1,7 @@
 import React from 'react';
 import * as utils from './utils'
 import { Sortable } from 'zent'
+import TodoCard from './Todo'
 import cx from 'classnames';
 import 'zent/css/index.css';
 
@@ -26,39 +27,24 @@ class TodoList extends React.Component {
   }
 
   processTodoList(todolist) {
+    console.log(todolist)
     const list = todolist.slice()
-    let p1, p2, p3, p4 = list.length - 1;
-    for (let i in list) {
-      switch (list[i].id) {
-        case -1:
-          p1 = i;
-          break;
-        case -2:
-          p2 = i;
-          break;
-        case -3:
-          p3 = i;
-          break;
+    let cnt = 0, p = []
+    p[0] = -1
+    p[4] = list.length
+    for (let i = 0; i < list.length; i++) {
+      if (list[i].id < 0) {
+        p[++cnt] = i;
+        list[i].priority = cnt
       }
     }
 
-    let dx = 1 / (p1 + 1);
-    for (let i = 1; i <= p1; i++) {
-      list[i - 1].priority = dx * i;
+    for (let i = 0; i < 4; i++) {
+      let dx = 1 / (p[i + 1] - p[i])
+      for (let j = 1; j < (p[i + 1] - p[i]); j++) {
+        list[j + p[i]].priority = dx * j + i;
+      }
     }
-    dx = 1 / (p2 - p1);
-    for (let i = 1; i < (p2 - p1); i++) {
-      list[i + p1].priority = dx * i + 1;
-    }
-    dx = 1 / (p3 - p2);
-    for (let i = 1; i < (p3 - p2); i++) {
-      list[i + p2].priority = dx * i + 2;
-    }
-    dx = 1 / (p4 - p3 + 1);
-    for (let i = 1; i <= (p4 - p3); i++) {
-      list[i + p3].priority = dx * i + 3;
-    }
-
     return list;
   }
 
@@ -71,33 +57,58 @@ class TodoList extends React.Component {
     })
   }
 
-  handleChange() {
-    const list = this.state.list.slice()
-    for (let i = 1; i <= list.length(); i++) {
-      if (list[i].id <= 0) continue;
+  handleChange = (items) => {
+    const list = this.processTodoList(items);
+    for (let i = 1; i <= list.length; i++) {
+      if (list[i - 1].id <= 0) continue;
       changeTodo(list[i - 1])
     }
-    this.refresh()
+    this.setState({
+      list: list
+    })
+  }
+
+  onMove = (e, originalEvent) => {
+    const { onMove } = this.props;
+    if (onMove) {
+      return onMove(e, originalEvent);
+    }
+    // insert point is based on direction
+    return true;
+  }
+
+  renderTodo(id, title) {
+    if (id <= 0) {
+      return ("---------")
+    } else {
+      return (<TodoCard id={id} title={title} refresher={() => this.refresh()} />)
+    }
   }
 
   renderTodoList() {
     const list = this.state.list.slice()
     return (
-      <Sortable items={list} onChange={this.refresh} filterClass="item-disabled">
+      <Sortable items={list}
+        scrollSensitivity={70}
+        onChange={this.handleChange}
+        filterClass="item-disabled"
+        onMove={this.onMove}
+      >
 
-        {list.map(({ title, id }) => (
-          <div className={cx('zent-demo-sortable-basic-item', {
-            'item-disabled': false,
-          })} key={id}>
-            {title}
-          </div>
-        ))}
+        {
+          list.map(({ title, id }) => (
+            <div className={cx('zent-demo-sortable-basic-item', {
+              'item-disabled': id <= 0,
+            })} key={id}>
+              {this.renderTodo(id, title)}
+            </div>
+          ))
+        }
 
-      </Sortable>)
+      </Sortable >)
   }
 
   render() {
-    console.log(this.state);
     return (
       <div className="todolist-mainpage">
         {this.renderTodoList()}
@@ -115,7 +126,7 @@ async function changeTodo(todo) {
   let res = await utils.Fetch(urls.changeTodo + todo.id, 'POST', JSON.stringify(data));
   let jsdata = await res.json()
   if (res.status !== 200) {
-    console.log(jsdata.data)
+    console.log(jsdata.Msg)
   }
 }
 
@@ -124,7 +135,7 @@ async function queryTodoList() {
   let res = await utils.Fetch(urls.getList, 'GET')
   let jsdata = await res.json()
   if (res.status !== 200) {
-    console.log(jsdata.data);
+    console.log(jsdata.Msg);
   }
   let datas = []
   for (let i = 1; i <= jsdata.Msg.length; i++) {
@@ -150,6 +161,14 @@ async function queryTodoList() {
     }
     ret.push(datas[i])
     i++;
+  }
+  while (tp < 4) {
+    ret.push({
+      title: "",
+      id: -1 * tp,
+      priority: tp,
+    })
+    tp++;
   }
   return ret
 }
