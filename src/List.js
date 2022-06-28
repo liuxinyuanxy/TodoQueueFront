@@ -10,9 +10,6 @@ const urls = {
   changeTodo: '/api/todo/change?id='
 }
 
-
-
-
 class TodoList extends React.Component {
   constructor(props) {
     super(props);

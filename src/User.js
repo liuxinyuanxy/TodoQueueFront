@@ -33,6 +33,16 @@ function RegisterForm() {
     const onSubmit = React.useCallback(form => {
         const value = form.getValue();
         console.log(value)
+        utils.Fetch("api/user/register", "POST", utils.GenerateFormDataFromObject(value).then(res => {
+            if (res.status !== 200) {
+                res.json().then(res => Notify.error(res.Msg))
+            }else {
+                res.json().then(res => {
+                    Notify.success(res.Msg)
+                    closeDialog(registerID)
+                })
+            }
+        })
     }, []);
     return (
         <Form
@@ -74,20 +84,7 @@ function RegisterForm() {
                 validators={[Validators.email('请填写正确的邮件')]}
             />
             <div className="zent-form-actions">
-                <Button type="primary" onClick={() =>
-                {
-                    utils.Fetch("api/user/register", "POST", utils.GenerateFormDataFromObject(form.getValue())).then(res => {
-                        if (res.status !== 200) {
-                            res.json().then(res => Notify.error(res.Msg))
-                        }else {
-                            res.json().then(res => {
-                                Notify.success(res.Msg)
-                                closeDialog(registerID)
-                            })
-                        }
-                    })
-                }
-                }>
+                <Button type="primary" onClick={() => {form.submit()}}>
                     注册
                 </Button>
                 <Button type="primary" outline onClick={resetForm}>
@@ -103,6 +100,17 @@ function LoginForm() {
     const resetForm = useCallback(() => {
         form.resetValue();
     }, [form]);
+    const onSubmit = React.useCallback(form => {
+        const value = form.getValue();
+        console.log(value)
+        utils.Fetch(`/api/user/login`, 'POST', utils.GenerateFormDataFromObject(value)).then(res => {
+            if (res.status !== 200) {
+                res.json().then(res => Notify.error(res.Msg))
+            } else {
+                closeDialog(loginID)
+            }
+        })
+    }, []);
     return (
         <Form
             form={form}
@@ -132,18 +140,7 @@ function LoginForm() {
                 }}
             />
             <div className="zent-form-actions">
-                <Button type="primary" onClick={() =>
-                {
-                    console.log(form.getValue())
-                    utils.Fetch(`/api/user/login`, 'POST', utils.GenerateFormDataFromObject(form.getValue())).then(res => {
-                        if (res.status !== 200) {
-                            res.json().then(res => Notify.error(res.Msg))
-                        } else {
-                            closeDialog(loginID)
-                        }
-                    })
-                }
-                }>
+                <Button type="primary" onClick={() => {form.submit()} }>
                     登录
                 </Button>
                 <Button type="primary" outline onClick={resetForm}>
