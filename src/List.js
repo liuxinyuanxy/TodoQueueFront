@@ -82,9 +82,9 @@ class TodoList extends React.Component {
       "background-color": "#69A794",
       "height": "20px"
     }
-    
+
     if (id <= 0) {
-      return (<Card  style={style}>{title}</Card>)
+      return (<Card style={style}>{title}</Card>)
     } else {
       return (<TodoCard id={id}
         title={title}
