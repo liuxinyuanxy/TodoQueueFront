@@ -10,6 +10,7 @@ import {
 import React, {useCallback} from "react";
 import 'zent/css/index.css';
 import * as utils from "./utils";
+let refresher
 
 const { openDialog, closeDialog } = Dialog;
 const registerID = "register";
@@ -156,7 +157,10 @@ const register = () => {
         dialogId: registerID,
         title: "注册",
         children: <>  <RegisterForm /> </>,
-        footer : (<> <Button onClick={() => closeDialog(registerID)}>关闭</Button> </>)
+        footer : (<> <Button onClick={() => closeDialog(registerID)}>关闭</Button> </>),
+        style: {
+            "min-width":"10px",
+        }
     })
 }
 
@@ -165,11 +169,15 @@ const login = () => {
         dialogId: loginID,
         title: "登录",
         children: <>  <LoginForm /> </>,
-        footer : (<> <Button onClick={() => closeDialog(loginID)}>关闭</Button> </>)
+        footer : (<> <Button onClick={() => closeDialog(loginID)}>关闭</Button> </>),
+        style: {
+            "min-width":"10px",
+        }
     })
 }
 
-function User() {
+function User(props) {
+    refresher = props.refresher
     return (
         <>
             <Button onClick={register}>

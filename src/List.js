@@ -1,7 +1,7 @@
 import React from 'react';
 import * as utils from './utils'
 import { Sortable, Card } from 'zent'
-import TodoCard from './Todo'
+import { TodoCard }from './Todo'
 import cx from 'classnames';
 import 'zent/css/index.css';
 
@@ -17,6 +17,9 @@ class TodoList extends React.Component {
     this.state = {
       list: [],
     }
+  }
+  componentWillUnmount() {
+    console.log("qwqqwqqqwqwq")
   }
 
   componentDidMount() {
@@ -92,6 +95,7 @@ class TodoList extends React.Component {
   renderTodoList() {
     const list = this.state.list.slice()
     return (
+
       <Sortable items={list}
         scrollSensitivity={70}
         onChange={this.handleChange}

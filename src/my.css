@@ -1,0 +1,15 @@
+.inCardButton1 {
+    position: absolute;
+    right: 10px;
+}
+.inCardButton2 {
+    position: absolute;
+    right: 80px;
+}
+.zent-dialog-r {
+    position: absolute;
+    width: 98%;
+    left: 1%;
+    top: 2%;
+    min-width: 10px;
+}
