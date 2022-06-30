@@ -4,6 +4,7 @@ import { Sortable, Card } from 'zent'
 import { TodoCard }from './Todo'
 import cx from 'classnames';
 import 'zent/css/index.css';
+import {NewTodoButton } from './TodoPage';
 
 
 const urls = {
@@ -18,16 +19,13 @@ class TodoList extends React.Component {
       list: [],
     }
   }
-  componentWillUnmount() {
-    console.log("qwqqwqqqwqwq")
-  }
 
   componentDidMount() {
     this.refresh()
   }
 
   processTodoList(todolist) {
-    // console.log(todolist)
+    // 
     const list = todolist.slice()
     let cnt = 0, p = []
     p[0] = -1
@@ -95,27 +93,29 @@ class TodoList extends React.Component {
   renderTodoList() {
     const list = this.state.list.slice()
     return (
+      <>
+        <NewTodoButton refresher={() => this.refresh()} />
+        <Sortable items={list}
+                  scrollSensitivity={70}
+                  onChange={this.handleChange}
+                  filterClass="item-disabled"
+                  onMove={this.onMove}
+                  scrollSpeed={20}
+        >
 
-      <Sortable items={list}
-        scrollSensitivity={70}
-        onChange={this.handleChange}
-        filterClass="item-disabled"
-        onMove={this.onMove}
-        scrollSpeed={20}
-        delay={77}
-      >
+          {
+            list.map(({ title, id }) => (
+                <div className={cx('zent-demo-sortable-basic-item', {
+                  'item-disabled': id <= 0,
+                })} key={id}>
+                  {this.renderTodo(id, title)}
+                </div>
+            ))
+          }
 
-        {
-          list.map(({ title, id }) => (
-            <div className={cx('zent-demo-sortable-basic-item', {
-              'item-disabled': id <= 0,
-            })} key={id}>
-              {this.renderTodo(id, title)}
-            </div>
-          ))
-        }
-
-      </Sortable >)
+        </Sortable >
+      </>
+      )
   }
 
   render() {
@@ -136,7 +136,7 @@ async function changeTodo(todo) {
   let res = await utils.Fetch(urls.changeTodo + todo.id, 'POST', JSON.stringify(data));
   let jsdata = await res.json()
   if (res.status !== 200) {
-    console.log(jsdata.Msg)
+    
   }
 }
 
@@ -145,7 +145,7 @@ async function queryTodoList() {
   let res = await utils.Fetch(urls.getList, 'GET')
   let jsdata = await res.json()
   if (res.status !== 200) {
-    console.log(jsdata.Msg);
+    
   }
   let datas = []
   for (let i = 1; i <= jsdata.Msg.length; i++) {

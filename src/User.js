@@ -32,9 +32,8 @@ function RegisterForm() {
         form.resetValue();
     }, [form]);
     const onSubmit = React.useCallback(form => {
-        const value = form.getValue();
-        console.log(value)
-        utils.Fetch("api/user/register", "POST", utils.GenerateFormDataFromObject(value).then(res => {
+        const value = form.getSubmitValue()
+        utils.Fetch("/api/user/register", "POST", utils.GenerateFormDataFromObject(value)).then(res => {
             if (res.status !== 200) {
                 res.json().then(res => Notify.error(res.Msg))
             }else {
@@ -43,7 +42,7 @@ function RegisterForm() {
                     closeDialog(registerID)
                 })
             }
-        }))
+        })
     }, []);
     return (
         <Form
@@ -102,12 +101,13 @@ function LoginForm() {
         form.resetValue();
     }, [form]);
     const onSubmit = React.useCallback(form => {
-        const value = form.getValue();
+        const value = form.getSubmitValue()
         console.log(value)
         utils.Fetch(`/api/user/login`, 'POST', utils.GenerateFormDataFromObject(value)).then(res => {
             if (res.status !== 200) {
                 res.json().then(res => Notify.error(res.Msg))
             } else {
+                refresher()
                 closeDialog(loginID)
             }
         })
@@ -116,16 +116,9 @@ function LoginForm() {
         <Form
             form={form}
             layout="vertical"
+            onSubmit={onSubmit}
             scrollToError
         >
-            <FormInputField
-                name="name"
-                label="昵称："
-                required="请选择类型"
-                props={{
-                    spellCheck: false,
-                }}
-            />
             <FormInputField
                 name="email"
                 label="邮件"

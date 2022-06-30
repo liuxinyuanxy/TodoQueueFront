@@ -73,25 +73,24 @@ function TemplateForm(props) {
     let pressButton = 0
     const form = Form.useForm(FormStrategy.View);
     const onSubmit = React.useCallback(form => {
-        const value = form.getValue();
-        console.log(value)
+        const value = form.getSubmitValue()
+        
         utils.Fetch("/api/template/change?tid=" + props.id, "POST", JSON.stringify(value), "application/json").then(res => {
             if (res.status !== 200) {
                 res.json().then(res => Notify.error(res.Msg))
             } else {
                 if (pressButton === 2) {
+                    CloseDialog(props.title)
                     Notify.success("success");
                 } else {
                     CloseDialog(props.title)
                     openDialog({
                         dialogId: "NewTodo",
                         title: "从模板新建Todo",
-                        children: <>  <NewTodo initialize={value} /> </>,
+                        children: <>  <NewTodo id={props.id} /> </>,
                         footer: (<> <Button onClick={() => closeDialog("NewTodo")}>关闭</Button> </>),
                         style: {
-                            style: {
-                                "min-width":"10px",
-                            }
+                            "min-width":"10px",
                         }
                     })
                 }
@@ -199,16 +198,18 @@ function viewButton(id, title) {
     })
 }
 
-function NewTemplate() {
+function NewTemplate(props) {
+    refresher = props.refresher
     const form = Form.useForm(FormStrategy.View);
     const onSubmit = React.useCallback(form => {
-        const value = form.getValue();
-        console.log(value)
+        const value = form.getSubmitValue()
+        
         utils.Fetch("/api/template/add", "POST", JSON.stringify(value), "application/json").then(res => {
             if (res.status !== 200) {
                 res.json().then(res => Notify.error(res.Msg))
             } else {
                 Notify.success("success")
+                CloseDialog("NewTemplate")
             }
         })
     }, []);
@@ -257,6 +258,7 @@ function NewTemplate() {
     );
 }
 function TemplateCard(props) {
+    refresher = props.refresher
     return (
         <Card><div>
             {props.title}

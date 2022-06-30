@@ -100,8 +100,8 @@ function FormSubtasks() {
 function TodoForm(props) {
     const form = Form.useForm(FormStrategy.View);
     const onSubmit = React.useCallback(form => {
-        const value = form.getValue();
-        console.log(value)
+        const value = form.getSubmitValue()
+        
         utils.Fetch("/api/todo/change?id=" + props.id, "POST", JSON.stringify(value), "application/json").then(res => {
             if (res.status !== 200) {
                 res.json().then(res => Notify.error(res.Msg))
@@ -200,7 +200,9 @@ function editButton(id, title) {
 function TodoCard(props) {
     refresher = props.refresher
     return (
-        <Card><div>
+        <Card style={{
+            background:props.color,
+        }}><div>
             {props.title}
             <Button className={"inCardButton2"} onClick={editButton(props.id, props.title)}> 编辑 </Button>
             <Button className={"inCardButton1"} onClick={deleteButton(props.id, props.title)}> 删除 </Button>
@@ -212,7 +214,7 @@ function NewTodo(props) {
     const form = Form.useForm(FormStrategy.View);
     const onSubmit = React.useCallback(form => {
         const value = form.getSubmitValue();
-        console.log(value)
+        
         utils.Fetch("/api/todo/new", "POST", JSON.stringify(value), "application/json").then(res => {
             if (res.status !== 200) {
                 res.json().then(res => Notify.error(res.Msg))
@@ -224,9 +226,20 @@ function NewTodo(props) {
             }
         })
     }, []);
-    if (props.initialize !== undefined)
-        form.initialize(props.initialize)
     const onSubmitFail = () => {Notify.error("有字段为空，表单不合法！")}
+    if (props.id !== undefined)
+    {
+        utils.Fetch("/api/template/get?tid=" + props.id, "GET").then(res => {
+            if (res.status !== 200) {
+                res.json().then(res => Notify.error(res.Msg))
+                closeDialog("NewTodo")
+            } else {
+                res.json().then(res => {
+                    form.initialize(res.Msg)
+                })
+            }
+        })
+    }
     return (
         <Form
             form={form}

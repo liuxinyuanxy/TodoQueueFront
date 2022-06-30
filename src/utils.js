@@ -1,6 +1,5 @@
-const prefix = "http://124.221.92.18:1323";
-
-
+// const prefix = "http://124.221.92.18:1323";
+const prefix = "http://10.186.84.82:1323";
 
 function GenerateFormDataFromObject(obj) {
     let result = new FormData()
@@ -10,13 +9,10 @@ function GenerateFormDataFromObject(obj) {
     return result
 }
 function Fetch(url, method, body, type) {
-    return type == undefined ? fetch(prefix + url, {
+    return type === undefined ? fetch(prefix + url, {
         method: method,
         mode: 'cors',
-        headers:{
-            "Content-Type":"application/json",
-        },
-        credentials: "same-origin",
+        credentials: "include",
         body: body
     }) : fetch(prefix + url, {
         method: method,
@@ -24,7 +20,7 @@ function Fetch(url, method, body, type) {
         headers: {
             "Content-type" : type,
         },
-        credentials: "same-origin",
+        credentials: "include",
         body: body
     })
 }
