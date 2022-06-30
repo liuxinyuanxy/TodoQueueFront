@@ -162,19 +162,27 @@ class Progress extends React.Component {
             (todo.ddl ? (" DDL: " + todo.ddl) : "");
         // 
         return (
-            <div className="progress">
-                {this.renderProgress()}
-                {pid ? this.renderInprogress() : this.renderStart()}
-                {todo.id ? (
-                    <Card title={todo.title}
-                        action={status}>
-                        {todo.subtasks.map((content, index) => (
-                            <div key={index}>
-                                {"- " + content}
-                            </div>
-                        ))}
-                    </Card>
-                ) : (<></>)}
+            <div className="progressBody">
+                <div className="progress">
+                    {this.renderProgress()}
+                    {pid ? this.renderInprogress() : this.renderStart()}
+                </div>
+                <div className="progressCard">
+                    {todo.id ? (
+                        <Card style={{
+                            margin:"10%",
+                            marginTop:"60px",
+                        }}
+                                title={todo.title}
+                              action={status}>
+                            {todo.subtasks.map((content, index) => (
+                                <div key={index}>
+                                    {"- " + content}
+                                </div>
+                            ))}
+                        </Card>
+                    ) : (<></>)}
+                </div>
             </div>
         )
     }

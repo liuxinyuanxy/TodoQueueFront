@@ -1,3 +1,7 @@
+body {
+  background-size: auto !important;
+  background: url("https://sm.ms/image/Dlxw5mPfRgYThsU") no-repeat fixed;
+}
 .inCardButton1 {
     position: absolute;
     right: 10px;
@@ -16,22 +20,21 @@
 
 /* progress */
 .progress {
-    display: flex;
+    display: grid;
+    grid-template-rows: 200px 70px;
     justify-content: center;
-    margin-top: 20%;
-    /* align-items: center; */
-    min-height: 100vh;
-    background: #dddfe7;
+    padding-top: 0%;
+     align-items: center;
   }
-  
+
   #clock h2 {
     position: relative;
     display: block;
-    /* color: #fff; */
+      color: #0e0303;
     text-align: center;
     font-weight: 700;
     letter-spacing: 0.4rem;
-    margin: 10px 0;
+    margin: 20px 0;
     text-transform: uppercase;
   }
   #clock #time {

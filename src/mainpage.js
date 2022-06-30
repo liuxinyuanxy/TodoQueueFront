@@ -31,9 +31,9 @@ class MainPage extends React.Component {
     }
     Header() {
         return (
-            <>
+            <div>
                     <Card>{this.state.isLoggedIn ? (<> 欢迎您： {this.state.userName}</>) : (<> <User refresher={() => this.refresh()}/> </>)}</Card>
-            </>
+            </div>
         )
     }
     Body() {
@@ -89,10 +89,9 @@ class MainPage extends React.Component {
     render() {
         return (
             <>
-                {/*<img style={{maxWidth:"100%", height:'auto'}} src={TitlePic}></img>*/}
+                <img style={{maxWidth:"100%", height:'auto'}} src={TitlePic}></img>
                 {this.Header()}
-                {this.Body()}
-                {this.Tail()}
+                {this.Body()}                {this.Tail()}
             </>
         )
     }
