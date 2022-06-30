@@ -9,7 +9,7 @@ function NewTodoButton(props) {
         <Affix offsetTop={0}>
         <Button icon={'plus-circle-o'} onClick={() => openDialog({
             dialogId: "NewTodo",
-            title: "注册",
+            title: "新建Todo",
             children: <>  <NewTodo refresher = {() => props.refresher()}/> </>,
             footer : (<> <Button onClick={() => closeDialog("NewTodo")}>关闭</Button> </>),
             style: {

@@ -40,7 +40,7 @@ class Progress extends React.Component {
 
 
     refresh = () => {
-        // console.log("???");
+        // 
 
         let res = queryProgress()
         res.then((result) => {
@@ -161,7 +161,7 @@ class Progress extends React.Component {
         const todo = this.state.todoinfo
         const status = (todo.estimatedT ? ("预计耗时: " + todo.estimatedT) : "") +
             (todo.ddl ? (" DDL: " + todo.ddl) : "");
-        // console.log(this.state);
+        // 
         return (
             <div>
                 {this.renderProgress()}
