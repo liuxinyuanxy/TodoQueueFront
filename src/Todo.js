@@ -30,7 +30,7 @@ function FormDate() {
     const onChangeDate = (value) => input.value = value
     return (
         <FormControl
-            label="Ddl"
+            label="DDL"
             name="Ddl"
         >
             <DatePicker

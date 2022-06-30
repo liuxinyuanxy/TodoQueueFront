@@ -1,9 +1,9 @@
 import React from 'react';
 import { Fetch } from './utils';
-import { Button, Notify } from 'zent'
+import { Button, Notify, Card } from 'zent'
 import 'zent/css/index.css';
+import './progress.css'
 
-let qwq = 0;
 
 const urls = {
     getTodoInfo: '/api/todo/get?id=',
@@ -99,59 +99,83 @@ class Progress extends React.Component {
         }
     }
 
-    renderClock() {
-        let time = this.duration()
+
+
+    renderStart() {
         return (
-            <div>
-                <p className="time">{time.hour + ':' + time.minite + ':' + time.second}</p>
+            <div className="buttons" style={{ "marginLeft": "0%" }}>
+                <Button type="primary"
+                    block
+                    size="large"
+                    onClick={() => this.handleStart()}>
+                    Start
+                </Button>
             </div>
         )
     }
 
-    renderStart() {
+    renderInprogress() {
         return (
-            <Button type="primary"
-                onClick={() => this.handleStart()}>
-                Start
-            </Button>
+            <div className="buttons">
+                <Button type="primary"
+                    size="large"
+                    onClick={() => this.handleSuspend()}>
+                    Suspend
+                </Button>
+                <Button type="primary"
+                    size="large"
+                    onClick={() => this.handleFinish()}>
+                    - Finish -
+                </Button>
+            </div >
         )
     }
 
-    renderSuspend() {
+    renderClock() {
+        const pid = this.state.pid
+        let time = this.duration()
+        let title = (pid ? "working" : "take a break")
         return (
-            <Button type="primary"
-                onClick={() => this.handleSuspend()}>
-                Suspend
-            </Button>
-        )
-    }
-
-    renderFinish() {
-        return (
-            <Button type="primary" outline
-                onClick={() => this.handleFinish()}>
-                Finish
-            </Button>
+            <div id="clock">
+                <h2>{title}</h2>
+                <div id="time">
+                    <div><span id="hour">{PrefixInteger(time.hour, 2)}</span><span>Hours</span></div>
+                    <div><span id="min">{PrefixInteger(time.minite, 2)}</span><span>Minutes</span></div>
+                    <div><span id="sec">{PrefixInteger(time.second, 2)}</span><span>Seconds</span></div>
+                </div>
+            </div>
         )
     }
 
     renderProgress() {
-        const state = this.state
+        const todo = this.state.todoinfo
         return (
             <div>
                 {this.renderClock()}
-            </div>
+            </div >
         )
     }
 
     render() {
         const pid = this.state.pid
+        const todo = this.state.todoinfo
+        const status = (todo.estimatedT ? ("预计耗时: " + todo.estimatedT) : "") +
+            (todo.ddl ? (" DDL: " + todo.ddl) : "");
         // console.log(this.state);
         return (
             <div>
                 {this.renderProgress()}
-                {pid ? this.renderSuspend() : this.renderStart()}
-                {pid ? this.renderFinish() : <p />}
+                {pid ? this.renderInprogress() : this.renderStart()}
+                {todo.id ? (
+                    <Card title={todo.title}
+                        action={status}>
+                        {todo.subtasks.map((content, index) => (
+                            <div key={index}>
+                                {"- " + content}
+                            </div>
+                        ))}
+                    </Card>
+                ) : (<></>)}
             </div>
         )
     }
@@ -191,6 +215,10 @@ async function queryProgress() {
     }
 
     return ret
+}
+
+function PrefixInteger(num, length) {
+    return (Array(length).join('0') + num).slice(-length);
 }
 
 async function startProgress() {

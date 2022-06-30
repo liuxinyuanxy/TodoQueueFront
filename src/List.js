@@ -102,6 +102,7 @@ class TodoList extends React.Component {
         filterClass="item-disabled"
         onMove={this.onMove}
         scrollSpeed={20}
+        delay={77}
       >
 
         {
