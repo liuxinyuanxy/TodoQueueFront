@@ -43,7 +43,7 @@ class Progress extends React.Component {
 
         let res = queryProgress()
         res.then((result) => {
-            if (result != undefined) {
+            if (result !== undefined) {
                 this.setState((state) => ({
                     pid: result.id,
                     todoinfo: result,
@@ -64,7 +64,7 @@ class Progress extends React.Component {
         const state = this.state;
         let res = suspendProgress(state.pid)
         res.then((result) => {
-            if (result != undefined) {
+            if (result !== undefined) {
                 this.refresh()
             }
         })
@@ -74,7 +74,7 @@ class Progress extends React.Component {
         const state = this.state;
         let res = finishProgress(state.pid)
         res.then((result) => {
-            if (result != undefined) {
+            if (result !== undefined) {
                 this.refresh()
             }
         })
@@ -82,7 +82,7 @@ class Progress extends React.Component {
 
     duration() {
         const lastWorkT = this.state.todoinfo.lastWorkT
-        if (lastWorkT == undefined) {
+        if (lastWorkT === undefined) {
             return {
                 hour: 0,
                 minite: 0,
@@ -147,7 +147,6 @@ class Progress extends React.Component {
     }
 
     renderProgress() {
-        const todo = this.state.todoinfo
         return (
             <div>
                 {this.renderClock()}
@@ -200,7 +199,7 @@ async function queryProgress() {
     }
 
     let todoID = jsdata.Msg
-    if (todoID == 0) {
+    if (todoID === 0) {
         return { id: todoID };
     }
 
