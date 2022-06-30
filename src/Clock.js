@@ -82,6 +82,8 @@ class Progress extends React.Component {
 
     duration() {
         const lastWorkT = this.state.todoinfo.lastWorkT
+        const spentT = this.state.spentT
+        const nowT = this.state.date.toUTCString()
         if (lastWorkT === undefined) {
             return {
                 hour: 0,
@@ -89,8 +91,8 @@ class Progress extends React.Component {
                 second: 0
             };
         }
-        let dur = this.state.date - Date.parse(lastWorkT)
-        dur = parseInt(dur / 1000);
+        let dur = Date.parse(nowT) - Date.parse(lastWorkT)
+        dur = parseInt(dur / 1000) + spentT * 60;
         return {
             hour: parseInt(dur / 3600),
             minite: parseInt((dur % 3600) / 60),
@@ -178,11 +180,11 @@ class Progress extends React.Component {
                 <div className="progressCard">
                     {todo.id ? (
                         <Card style={{
-                            margin:"10%",
-                            marginTop:"60px",
+                            margin: "10%",
+                            marginTop: "60px",
                         }}
-                                title={todo.title}
-                              action={status}>
+                            title={todo.title}
+                            action={status}>
                             {todo.subtasks.map((content, index) => (
                                 <div key={index}>
                                     {"- " + content}

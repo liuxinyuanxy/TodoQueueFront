@@ -42,7 +42,7 @@ body {
   #clock #time div {
     position: relative;
     margin: 0 5px;
-    -webkit-box-reflect: below 1px linear-gradient(transparent, #0003);
+    -webkit-box-reflect: below 1px linear-gradient(transparent, black);
   }
   
   #clock #time div span {
