@@ -1,5 +1,4 @@
-// const prefix = "http://124.221.92.18:1323";
-const prefix = "http://10.186.84.82:1323";
+const prefix = "http://124.221.92.18:1323";
 
 function GenerateFormDataFromObject(obj) {
     let result = new FormData()

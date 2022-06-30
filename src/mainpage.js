@@ -19,7 +19,7 @@ class MainPage extends React.Component {
         this.refresh()
     }
     refresh() {
-        utils.Fetch("/api/user/change/get", "GET").then(res => {
+        utils.Fetch("/api/user/get", "GET").then(res => {
             if (res.status === 200)
             {
                 this.setState({isLoggedIn:true})
