@@ -1,6 +1,6 @@
 body {
   background-size: auto !important;
-  background: url("https://sm.ms/image/Dlxw5mPfRgYThsU") no-repeat fixed;
+  background: #dddfe7;
 }
 .inCardButton1 {
     position: absolute;
@@ -17,8 +17,6 @@ body {
     top: 2%;
     min-width: 10px;
 }
-
-/* progress */
 .progress {
     display: grid;
     grid-template-rows: 200px 70px;
@@ -30,7 +28,7 @@ body {
   #clock h2 {
     position: relative;
     display: block;
-      color: #0e0303;
+    color: #0e0303;
     text-align: center;
     font-weight: 700;
     letter-spacing: 0.4rem;
@@ -53,7 +51,7 @@ body {
     display: block;
     width: 100px;
     height: 80px;
-    background: #2196f3;
+    background: #8CC0DE;
     font-weight: 300;
     display: flex;
     justify-content: center;
@@ -70,16 +68,16 @@ body {
     font-weight: 500;
     z-index: 9;
     text-transform: uppercase;
-    background: #127fd6;
+    background: rgba(18, 127, 214, 0.3);
     box-shadow: none;
   }
   
   #clock #time div:last-child span {
-    background: #ff006a;
+    background: #F4BFBF;
   }
   
   #clock #time div:last-child span:nth-child(2) {
-    background: #ff006a;
+    background: #F4BFBF;
   }
   
   

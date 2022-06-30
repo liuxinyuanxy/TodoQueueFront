@@ -145,7 +145,10 @@ function TodoForm(props) {
             <FormSpent />
             <FormSubtasks />
             <div className="zent-form-actions">
-                <Button type="primary" onClick={() => {form.submit()}}>
+                <Button 
+ style={{
+                            background:"rgba(187,222,214,0.76)",
+                        }}  onClick={() => {form.submit()}}>
                     提交
                 </Button>
             </div>
@@ -171,7 +174,10 @@ function deleteButton(id, title) {
             children: <div> 您是否要删除Todo: {title} </div>,
             footer: (
                 <>
-                    <Button type="primary" onClick={() => CloseDialog(title)}> 取消 </Button>
+                    <Button 
+ style={{
+                            background:"rgba(187,222,214,0.76)",
+                        }}  onClick={() => CloseDialog(title)}> 取消 </Button>
                     <Button onClick={() => {
                         deleteTodo(id, title)
                     }}>
@@ -276,7 +282,10 @@ function NewTodo(props) {
             />
             <FormSubtasks />
             <div className="zent-form-actions">
-                <Button type="primary" onClick={() => {form.submit()}}>
+                <Button 
+ style={{
+                            background:"rgba(187,222,214,0.76)",
+                        }}  onClick={() => {form.submit()}}>
                     提交
                 </Button>
             </div>

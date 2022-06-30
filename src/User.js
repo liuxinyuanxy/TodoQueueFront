@@ -84,10 +84,16 @@ function RegisterForm() {
                 validators={[Validators.email('请填写正确的邮件')]}
             />
             <div className="zent-form-actions">
-                <Button type="primary" onClick={() => {form.submit()}}>
+                <Button 
+ style={{
+                            background:"rgba(187,222,214,0.76)",
+                        }}  onClick={() => {form.submit()}}>
                     注册
                 </Button>
-                <Button type="primary" outline onClick={resetForm}>
+                <Button 
+ style={{
+                            background:"rgba(187,222,214,0.76)",
+                        }}  outline onClick={resetForm}>
                     重置
                 </Button>
             </div>
@@ -134,10 +140,16 @@ function LoginForm() {
                 }}
             />
             <div className="zent-form-actions">
-                <Button type="primary" onClick={() => {form.submit()} }>
+                <Button 
+ style={{
+                            background:"rgba(187,222,214,0.76)",
+                        }}  onClick={() => {form.submit()} }>
                     登录
                 </Button>
-                <Button type="primary" outline onClick={resetForm}>
+                <Button 
+ style={{
+                            background:"rgba(187,222,214,0.76)",
+                        }}  outline onClick={resetForm}>
                     重置
                 </Button>
             </div>
@@ -177,7 +189,10 @@ function User(props) {
                 注册
             </Button>
 
-            <Button type="primary" outline onClick={login}>
+            <Button 
+ style={{
+                            background:"rgba(187,222,214,0.76)",
+                        }}  outline onClick={login}>
                 登录
             </Button>
         </>

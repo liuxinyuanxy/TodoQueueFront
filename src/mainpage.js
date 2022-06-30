@@ -59,28 +59,28 @@ class MainPage extends React.Component {
                 bottom: "0",
                 width:"100%",
             }}>
-                {this.state.page !== 1 ?  <Button type={"primary"} onClick={() => (this.setState({page:1}))} style={{
+                {this.state.page !== 1 ?  <Button onClick={() => (this.setState({page:1}))} style={{
                         margin:"0",
                         width:"33.4%",
                         height:"100%",
-                        background:"green",
-                    }}> Todo  </Button> : <Button type={"primary"} onClick={() => (this.setState({page:4}))} style={{
+                    background:"#8ac6d1",
+                    }}> Todo  </Button> : <Button onClick={() => (this.setState({page:4}))} style={{
                     margin:"0",
                     width:"33.4%",
                     height:"100%",
-                    background:"green",
+                    background:"#8ac6d1",
                 }}>  已完成 </Button>}
-                    <Button type={"primary"}  onClick={() => (this.setState({page:2}))} style={{
+                    <Button  onClick={() => (this.setState({page:2}))} style={{
                         margin:"0",
                         width:"33.3%",
                         height:"100%",
-                        background:"red",
+                        background:"#C3AED6",
                     }}> Clock  </Button>
-                    <Button type={"primary"}  onClick={() => (this.setState({page:3}))} style={{
+                    <Button  onClick={() => (this.setState({page:3}))} style={{
                         margin:"0",
                         width:"33.3%",
                         height:"100%",
-                        background:"blue",
+                        background:"#8ac6d1",
                     }}> 模板  </Button>
             </div>
             </Affix>
@@ -89,9 +89,10 @@ class MainPage extends React.Component {
     render() {
         return (
             <>
-                <img style={{maxWidth:"100%", height:'auto'}} src={TitlePic}></img>
+                {/*<img style={{maxWidth:"100%", height:'auto'}} src={TitlePic}></img>*/}
                 {this.Header()}
-                {this.Body()}                {this.Tail()}
+                {this.Body()}
+                {this.Tail()}
             </>
         )
     }

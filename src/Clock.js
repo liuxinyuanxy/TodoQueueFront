@@ -103,9 +103,12 @@ class Progress extends React.Component {
     renderStart() {
         return (
             <div className="buttons" style={{ "marginLeft": "0%" }}>
-                <Button type="primary"
+                <Button
                     block
                     size="large"
+                        style={{
+                            background: "#b1bce6",
+                        }}
                     onClick={() => this.handleStart()}>
                     Start
                 </Button>
@@ -116,13 +119,19 @@ class Progress extends React.Component {
     renderInprogress() {
         return (
             <div className="buttons">
-                <Button type="primary"
+                <Button
                     size="large"
+                        style={{
+                            background:"rgba(187,222,214,0.76)",
+                        }}
                     onClick={() => this.handleSuspend()}>
                     Suspend
                 </Button>
-                <Button type="primary"
+                <Button
                     size="large"
+                        style={{
+                            background:"rgba(187,222,214,0.76)",
+                        }}
                     onClick={() => this.handleFinish()}>
                     - Finish -
                 </Button>

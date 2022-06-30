@@ -143,7 +143,10 @@ function TemplateForm(props) {
             />
             <FormSubtasks />
             <div className="zent-form-actions">
-                <Button type="primary" onClick={() => {pressButton = 1; form.submit()}}>
+                <Button 
+ style={{
+                            background:"rgba(187,222,214,0.76)",
+                        }}  onClick={() => {pressButton = 1; form.submit()}}>
                     从此模板新建Todo
                 </Button>
                 <Button onClick={() => {pressButton = 2; form.submit()}}>
@@ -172,7 +175,10 @@ function deleteButton(id, title) {
             children: <div> 您是否要删除Template: {title} </div>,
             footer: (
                 <>
-                    <Button type="primary" onClick={() => CloseDialog(title)}> 取消 </Button>
+                    <Button 
+ style={{
+                            background:"rgba(187,222,214,0.76)",
+                        }}  onClick={() => CloseDialog(title)}> 取消 </Button>
                     <Button onClick={() => {
                         deleteTemplate(id, title)
                     }}>
@@ -250,7 +256,10 @@ function NewTemplate(props) {
             />
             <FormSubtasks />
             <div className="zent-form-actions">
-                <Button type="primary" onClick={() => {form.submit()}}>
+                <Button 
+ style={{
+                            background:"rgba(187,222,214,0.76)",
+                        }}  onClick={() => {form.submit()}}>
                     提交
                 </Button>
             </div>

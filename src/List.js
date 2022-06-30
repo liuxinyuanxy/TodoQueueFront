@@ -7,7 +7,7 @@ import 'zent/css/index.css';
 import { NewTodoButton } from './TodoPage';
 
 
-const colors = ["", "#DDA0DD", "#FFE4B5", "#AFEEEE", "#98FB98"]
+const colors = ["", "rgba(220,103,211,0.2)", "rgba(255,228,181,0.5)", "rgba(175,238,238,0.2)", "rgba(152,251,152,0.2)"]
 
 const urls = {
   getList: '/api/todo/list',

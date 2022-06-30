@@ -130,7 +130,10 @@ function deleteButton(id, title) {
             children: <div> 您是否要删除已完成: {title} </div>,
             footer: (
                 <>
-                    <Button type="primary" onClick={() => CloseDialog(title)}> 取消 </Button>
+                    <Button
+style={{
+                            background:"rgba(187,222,214,0.76)",
+                        }} onClick={() => CloseDialog(title)}> 取消 </Button>
                     <Button onClick={() => {
                         deleteDone(id, title)
                     }}>
@@ -159,9 +162,11 @@ function viewButton(id, title) {
 function DoneCard(props) {
     refresher = props.refresher
     return (
-        <Card><div>
+        <Card style={{
+            background: "rgba(218,234,241,0.85)",
+        }}><div>
             {props.title}
-            <Button className={"inCardButton2"} onClick={viewButton(props.id, props.title)}> 查看 </Button>
+            <Button  className={"inCardButton2"} onClick={viewButton(props.id, props.title)}> 查看 </Button>
             <Button className={"inCardButton1"} onClick={deleteButton(props.id, props.title)}> 删除 </Button>
         </div> </Card>
     )
