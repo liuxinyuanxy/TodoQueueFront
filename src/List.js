@@ -1,6 +1,6 @@
 import React from 'react';
 import * as utils from './utils'
-import { Sortable, Card } from 'zent'
+import { Sortable, Card, Notify } from 'zent'
 import { TodoCard }from './Todo'
 import cx from 'classnames';
 import 'zent/css/index.css';
@@ -133,10 +133,10 @@ async function changeTodo(todo) {
   const data = {
     priority: todo.priority
   }
-  let res = await utils.Fetch(urls.changeTodo + todo.id, 'POST', JSON.stringify(data));
+  let res = await utils.Fetch(urls.changeTodo + todo.id, 'POST', JSON.stringify(data),'application/json');
   let jsdata = await res.json()
   if (res.status !== 200) {
-    
+    Notify.error(jsdata.Msg)
   }
 }
 
@@ -145,7 +145,7 @@ async function queryTodoList() {
   let res = await utils.Fetch(urls.getList, 'GET')
   let jsdata = await res.json()
   if (res.status !== 200) {
-    
+    Notify.error(jsdata.Msg)
   }
   let datas = []
   for (let i = 1; i <= jsdata.Msg.length; i++) {

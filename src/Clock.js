@@ -2,7 +2,6 @@ import React from 'react';
 import { Fetch } from './utils';
 import { Button, Notify, Card } from 'zent'
 import 'zent/css/index.css';
-import './progress.css'
 
 
 const urls = {
