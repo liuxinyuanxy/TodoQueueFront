@@ -163,7 +163,7 @@ class Progress extends React.Component {
             (todo.ddl ? (" DDL: " + todo.ddl) : "");
         // console.log(this.state);
         return (
-            <div>
+            <div className="progress">
                 {this.renderProgress()}
                 {pid ? this.renderInprogress() : this.renderStart()}
                 {todo.id ? (
