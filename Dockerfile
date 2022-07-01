@@ -1,4 +1,4 @@
-FROM node:16-alpine as builder
+FROM node:16-alpine AS builder
 
 ENV WORKDIR=/todoq
 
@@ -12,6 +12,6 @@ RUN npm run build
 
 FROM nginx:alpine
 
-COPY --from=builder $WORKDIR/build/* /usr/share/nginx/html
+COPY -r --from=builder /todoq/build/* /usr/share/nginx/html/
 
 EXPOSE 80
