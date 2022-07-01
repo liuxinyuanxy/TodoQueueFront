@@ -131,7 +131,7 @@ function TemplateForm(props) {
             />
             <FormNumberInputField
                 name="EstimatedT"
-                label="预计耗时"
+                label="预计耗时(min)"
                 normalizeBeforeSubmit={value => Number(value)}
                 props={{
                     showStepper: true,
@@ -244,7 +244,7 @@ function NewTemplate(props) {
             />
             <FormNumberInputField
                 name="EstimatedT"
-                label="预计耗时"
+                label="预计耗时(min)"
                 normalizeBeforeSubmit={value => Number(value)}
                 props={{
                     showStepper: true,

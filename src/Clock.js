@@ -92,7 +92,7 @@ class Progress extends React.Component {
             };
         }
         let dur = Date.parse(nowT) - Date.parse(lastWorkT)
-        dur = parseInt(dur / 1000) + spentT * 60;
+        dur = parseInt(dur / 1000) + spentT;
         return {
             hour: parseInt(dur / 3600),
             minite: parseInt((dur % 3600) / 60),
@@ -168,7 +168,7 @@ class Progress extends React.Component {
     render() {
         const pid = this.state.pid
         const todo = this.state.todoinfo
-        const status = (todo.estimatedT ? ("预计耗时: " + todo.estimatedT) : "") +
+        const status = (todo.estimatedT ? ("预计耗时(min): " + todo.estimatedT) : "") +
             (todo.ddl ? (" DDL: " + todo.ddl) : "");
         // 
         return (

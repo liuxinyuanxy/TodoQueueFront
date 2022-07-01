@@ -12,6 +12,10 @@ RUN npm run build
 
 FROM nginx:alpine
 
-COPY -r --from=builder /todoq/build/* /usr/share/nginx/html/
+WORKDIR /usr/share/nginx/html/
+
+RUN rm -rf ./*
+
+COPY --from=builder /todoq/build ./
 
 EXPOSE 80

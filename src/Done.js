@@ -13,7 +13,7 @@ import {
     ValidateOption,
     FormError,
 } from 'zent';
-import React, {useCallback} from "react";
+import React, { useCallback } from "react";
 import * as utils from "./utils";
 
 let refresher
@@ -28,10 +28,10 @@ function FormSpent() {
     const input = Form.useField("SpentT", "");
     return (
         <FormControl
-            label="已花费时间"
+            label="已花费时间(min)"
             name="SpentT"
         >
-            <Input value={input.value} widthSize="xs" disabled />
+            <Input value={parseInt(input.value / 60)} widthSize="xs" disabled />
         </FormControl>
     )
 }
@@ -46,8 +46,7 @@ function FormSubtasks() {
     return (
         <>
             <ul>
-                {model.children.map((child, index) =>
-                {
+                {model.children.map((child, index) => {
                     return (
                         <li key={child.id} className="Subtask">
                             <FormInputField
@@ -69,7 +68,8 @@ function FormSubtasks() {
                             />
 
                         </li>
-                    )})}
+                    )
+                })}
             </ul>
             <FormError style={{ marginLeft: 128 }}>{model.error?.message}</FormError>
         </>
@@ -101,7 +101,7 @@ function DoneForm(props) {
             />
             <FormNumberInputField
                 name="EstimatedT"
-                label="预计耗时"
+                label="预计耗时(min)"
             />
             <FormSpent />
             <FormSubtasks />
@@ -130,8 +130,8 @@ function deleteButton(id, title) {
             footer: (
                 <>
                     <Button
-style={{
-                            background:"rgba(187,222,214,0.76)",
+                        style={{
+                            background: "rgba(187,222,214,0.76)",
                         }} onClick={() => CloseDialog(title)}> 取消 </Button>
                     <Button onClick={() => {
                         deleteDone(id, title)
@@ -141,7 +141,7 @@ style={{
                 </>
             ),
             style: {
-                "min-width":"10px",
+                "min-width": "10px",
             }
         }
     )
@@ -153,7 +153,7 @@ function viewButton(id, title) {
         children: <>  <DoneForm id={id} title={title} /> </>,
         footer: (<> <Button onClick={() => CloseDialog(title)}>关闭</Button> </>),
         style: {
-            "min-width":"10px",
+            "min-width": "10px",
         }
     })
 }
@@ -164,10 +164,10 @@ function DoneCard(props) {
         <Card style={{
             background: "rgba(218,234,241,0.85)",
         }}><div>
-            {props.title}
-            <Button  className={"inCardButton2"} onClick={viewButton(props.id, props.title)}> 查看 </Button>
-            <Button className={"inCardButton1"} onClick={deleteButton(props.id, props.title)}> 删除 </Button>
-        </div> </Card>
+                {props.title}
+                <Button className={"inCardButton2"} onClick={viewButton(props.id, props.title)}> 查看 </Button>
+                <Button className={"inCardButton1"} onClick={deleteButton(props.id, props.title)}> 删除 </Button>
+            </div> </Card>
     )
 }
 

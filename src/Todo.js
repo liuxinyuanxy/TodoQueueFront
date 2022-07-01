@@ -47,10 +47,10 @@ function FormSpent() {
     const input = Form.useField("SpentT", "");
     return (
         <FormControl
-            label="已花费时间"
+            label="已花费时间(min)"
             name="SpentT"
         >
-            <Input value={input.value} widthSize="xs" disabled />
+            <Input value={parseInt(input.value / 60)} widthSize="xs" disabled />
         </FormControl>
     )
 }
@@ -139,7 +139,7 @@ function TodoForm(props) {
             <FormDate />
             <FormNumberInputField
                 name="EstimatedT"
-                label="预计耗时"
+                label="预计耗时(min)"
                 normalizeBeforeSubmit={value => Number(value)}
             />
             <FormSpent />
@@ -273,7 +273,7 @@ function NewTodo(props) {
             />
             <FormNumberInputField
                 name="EstimatedT"
-                label="预计耗时"
+                label="预计耗时(min)"
                 normalizeBeforeSubmit={value => Number(value)}
                 props={{
                     showStepper: true,
