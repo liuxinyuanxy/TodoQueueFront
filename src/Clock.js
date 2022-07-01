@@ -183,8 +183,10 @@ class Progress extends React.Component {
                             margin: "10%",
                             marginTop: "60px",
                         }}
-                            title={todo.title}
-                            action={status}>
+                            title={todo.title}>
+                            <div>
+                                {status}
+                            </div>
                             {todo.subtasks.map((content, index) => (
                                 <div key={index}>
                                     {"- " + content}

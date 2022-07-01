@@ -71,7 +71,7 @@ function TemplateForm(props) {
     const form = Form.useForm(FormStrategy.View);
     const onSubmit = React.useCallback(form => {
         const value = form.getSubmitValue()
-        Notify.info("正在提交，请稍候")
+        Notify.info("正在加载，请稍候")
         utils.Fetch("/api/template/change?tid=" + props.id, "POST", JSON.stringify(value), "application/json").then(res => {
             if (res.status !== 200) {
                 res.json().then(res => Notify.error(res.Msg))

@@ -26,6 +26,8 @@ class MainPage extends React.Component {
                 res.json().then(res => {
                     this.setState({userName:res.Msg.Nickname})
                 })
+            } else {
+                this.setState({isLoggedIn:false})
             }
         })
     }

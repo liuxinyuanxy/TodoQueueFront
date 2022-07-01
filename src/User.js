@@ -6,8 +6,15 @@ import {
     Notify,
     Validators,
     FormInputField,
+    Dropdown,
+    Menu,
+    DropdownButton,
+    DropdownPosition,
+    DropdownClickTrigger,
+    DropdownContent,
+    MenuItem,
 } from 'zent';
-import React, {useCallback} from "react";
+import React, { useCallback } from "react";
 import 'zent/css/index.css';
 import * as utils from "./utils";
 let refresher
@@ -37,7 +44,7 @@ function RegisterForm() {
         utils.Fetch("/api/user/register", "POST", utils.GenerateFormDataFromObject(value)).then(res => {
             if (res.status !== 200) {
                 res.json().then(res => Notify.error(res.Msg))
-            }else {
+            } else {
                 res.json().then(res => {
                     Notify.success(res.Msg)
                     closeDialog(registerID)
@@ -85,16 +92,16 @@ function RegisterForm() {
                 validators={[Validators.email('请填写正确的邮件')]}
             />
             <div className="zent-form-actions">
-                <Button 
- style={{
-                            background:"rgba(187,222,214,0.76)",
-                        }}  onClick={() => {form.submit()}}>
+                <Button
+                    style={{
+                        background: "rgba(187,222,214,0.76)",
+                    }} onClick={() => { form.submit() }}>
                     注册
                 </Button>
-                <Button 
- style={{
-                            background:"rgba(187,222,214,0.76)",
-                        }}  outline onClick={resetForm}>
+                <Button
+                    style={{
+                        background: "rgba(187,222,214,0.76)",
+                    }} outline onClick={resetForm}>
                     重置
                 </Button>
             </div>
@@ -142,16 +149,16 @@ function LoginForm() {
                 }}
             />
             <div className="zent-form-actions">
-                <Button 
- style={{
-                            background:"rgba(187,222,214,0.76)",
-                        }}  onClick={() => {form.submit()} }>
+                <Button
+                    style={{
+                        background: "rgba(187,222,214,0.76)",
+                    }} onClick={() => { form.submit() }}>
                     登录
                 </Button>
-                <Button 
- style={{
-                            background:"rgba(187,222,214,0.76)",
-                        }}  outline onClick={resetForm}>
+                <Button
+                    style={{
+                        background: "rgba(187,222,214,0.76)",
+                    }} outline onClick={resetForm}>
                     重置
                 </Button>
             </div>
@@ -164,9 +171,9 @@ const register = () => {
         dialogId: registerID,
         title: "注册",
         children: <>  <RegisterForm /> </>,
-        footer : (<> <Button onClick={() => closeDialog(registerID)}>关闭</Button> </>),
+        footer: (<> <Button onClick={() => closeDialog(registerID)}>关闭</Button> </>),
         style: {
-            "min-width":"10px",
+            "min-width": "10px",
         }
     })
 }
@@ -176,9 +183,9 @@ const login = () => {
         dialogId: loginID,
         title: "登录",
         children: <>  <LoginForm /> </>,
-        footer : (<> <Button onClick={() => closeDialog(loginID)}>关闭</Button> </>),
+        footer: (<> <Button onClick={() => closeDialog(loginID)}>关闭</Button> </>),
         style: {
-            "min-width":"10px",
+            "min-width": "10px",
         }
     })
 }
@@ -191,10 +198,10 @@ function User(props) {
                 注册
             </Button>
 
-            <Button 
- style={{
-                            background:"rgba(187,222,214,0.76)",
-                        }}  outline onClick={login}>
+            <Button
+                style={{
+                    background: "rgba(187,222,214,0.76)",
+                }} outline onClick={login}>
                 登录
             </Button>
         </>
@@ -232,8 +239,8 @@ function ChangeForm() {
             <div className="zent-form-actions">
                 <Button
                     style={{
-                        background:"rgba(187,222,214,0.76)",
-                    }}  onClick={() => {form.submit()} }>
+                        background: "rgba(187,222,214,0.76)",
+                    }} onClick={() => { form.submit() }}>
                     提交
                 </Button>
             </div>
@@ -246,22 +253,51 @@ function changeUserName() {
         dialogId: changeID,
         title: "修改用户名",
         children: <>  <ChangeForm /> </>,
-        footer : (<> <Button onClick={() => closeDialog(changeID)}>关闭</Button> </>),
+        footer: (<> <Button onClick={() => closeDialog(changeID)}>关闭</Button> </>),
         style: {
-            "min-width":"10px",
+            "min-width": "10px",
         }
+    })
+}
+
+function logOut() {
+    utils.Fetch("/api/user/logout", "GET").then(() => {
+        refresher();
     })
 }
 
 function UserLoggedIn(props) {
     refresher = props.refresher
-       return (
+    const onClick = (e, key) => {
+        if (key === "1") {
+            changeUserName();
+        } if (key === "2") {
+            logOut();
+        }
+    }
+    return (
         <>
             <> 欢迎您： {props.userName}
-                <Button className={"inCardButton2"} onClick={changeUserName}> 修改用户名 </Button>
+                <Dropdown position={DropdownPosition.AutoBottomLeft} >
+                    <DropdownClickTrigger>
+                        <DropdownButton className={"inCardButton2"} style={{
+                            background:"rgba(187,222,214,0.76)",
+                        }}>菜单</DropdownButton>
+                    </DropdownClickTrigger>
+                    <DropdownContent>
+                        <Menu onClick={onClick} style={{
+                            width:"120px",
+                        }}>
+                            <MenuItem style={{
+
+                            }} key="1">修改用户名</MenuItem>
+                            <MenuItem key="2">登出</MenuItem>
+                        </Menu>
+                    </DropdownContent>
+                </Dropdown>
             </>
         </>
     )
 }
 
-export {User, UserLoggedIn}
+export { User, UserLoggedIn }
