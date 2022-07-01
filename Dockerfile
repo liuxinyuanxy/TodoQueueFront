@@ -1,4 +1,4 @@
-FROM node:16-alpine as builder
+FROM node:16-alpine AS builder
 
 ENV WORKDIR=/todoq
 
@@ -10,8 +10,10 @@ RUN npm ci --legacy-peer-deps
 
 RUN npm run build
 
+RUN ls build/
+
 FROM nginx:alpine
 
-COPY --from=builder $WORKDIR/build/* /usr/share/nginx/html
+COPY --from=builder /todoq/build/* /usr/share/nginx/html/
 
 EXPOSE 80
