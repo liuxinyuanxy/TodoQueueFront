@@ -1,8 +1,7 @@
 import DoneCard from './Done'
 import * as utils from './utils'
-import { Button, Dialog, Affix, Notify } from "zent";
+import {Notify} from "zent";
 import React from "react";
-const { openDialog, closeDialog } = Dialog;
 
 class DoneList extends React.Component {
     constructor(props) {
@@ -18,7 +17,7 @@ class DoneList extends React.Component {
                 res.json().then(res => Notify.error(res.Msg))
             else
                 res.json().then(res => {
-                    this.setState({ list: res.Msg })
+                    this.setState({list: res.Msg})
                 })
         })
     }
@@ -27,7 +26,7 @@ class DoneList extends React.Component {
         return (
             <>
                 {
-                    lists.map((item, index) => <DoneCard refresher={() => this.refresh()} id={item.ID} title={item.Title} />)
+                    lists.map((item,index)=> <DoneCard refresher={() => this.refresh()} id={item.ID} title={item.Title} />)
                 }
             </>
 
@@ -38,7 +37,7 @@ class DoneList extends React.Component {
 function DonePage() {
     return (
         <div style={{
-            margin: "10%",
+            margin:"10%",
             marginBottom: "22%",
         }}>
             <DoneList />

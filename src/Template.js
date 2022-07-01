@@ -1,21 +1,18 @@
 import {
     Form,
     FormStrategy,
-    // FormControl,
-    // Input,
     Validators,
     Button,
     Card,
     Dialog,
     Notify,
-    // DatePicker,
     FormInputField,
     FormNumberInputField,
     ValidateOption,
     FormError,
 } from 'zent';
-import React, { useCallback } from "react";
-import { NewTodo } from "./Todo";
+import React, {useCallback} from "react";
+import {NewTodo} from "./Todo";
 import * as utils from "./utils";
 
 let refresher
@@ -40,7 +37,8 @@ function FormSubtasks() {
                 添加子任务
             </Button>
             <ul>
-                {model.children.map((child, index) => {
+                {model.children.map((child, index) =>
+                {
                     return (
                         <li key={child.id} className="Subtask">
                             <FormInputField
@@ -62,8 +60,7 @@ function FormSubtasks() {
                             />
 
                         </li>
-                    )
-                })}
+                    )})}
             </ul>
             <FormError style={{ marginLeft: 128 }}>{model.error?.message}</FormError>
         </>
@@ -74,7 +71,7 @@ function TemplateForm(props) {
     const form = Form.useForm(FormStrategy.View);
     const onSubmit = React.useCallback(form => {
         const value = form.getSubmitValue()
-
+        Notify.info("正在提交，请稍候")
         utils.Fetch("/api/template/change?tid=" + props.id, "POST", JSON.stringify(value), "application/json").then(res => {
             if (res.status !== 200) {
                 res.json().then(res => Notify.error(res.Msg))
@@ -90,14 +87,14 @@ function TemplateForm(props) {
                         children: <>  <NewTodo id={props.id} /> </>,
                         footer: (<> <Button onClick={() => closeDialog("NewTodo")}>关闭</Button> </>),
                         style: {
-                            "minWidth": "10px",
+                            "min-width":"10px",
                         }
                     })
                 }
             }
         })
     }, []);
-    const onSubmitFail = () => { Notify.error("有字段为空，表单不合法！") }
+    const onSubmitFail = () => {Notify.error("有字段为空，表单不合法！")}
     utils.Fetch("/api/template/get?tid=" + props.id, "GET").then(res => {
         if (res.status !== 200) {
             res.json().then(res => Notify.error(res.Msg))
@@ -128,8 +125,8 @@ function TemplateForm(props) {
                 normalizeBeforeSubmit={value => Number(value)}
                 props={{
                     showStepper: true,
-                    min: 1,
-                    max: 4,
+                    min:1,
+                    max:4,
                 }}
             />
             <FormNumberInputField
@@ -138,18 +135,18 @@ function TemplateForm(props) {
                 normalizeBeforeSubmit={value => Number(value)}
                 props={{
                     showStepper: true,
-                    min: 0,
+                    min:0,
                 }}
             />
             <FormSubtasks />
             <div className="zent-form-actions">
-                <Button
-                    style={{
-                        background: "rgba(187,222,214,0.76)",
-                    }} onClick={() => { pressButton = 1; form.submit() }}>
+                <Button 
+ style={{
+                            background:"rgba(187,222,214,0.76)",
+                        }}  onClick={() => {pressButton = 1; form.submit()}}>
                     从此模板新建Todo
                 </Button>
-                <Button onClick={() => { pressButton = 2; form.submit() }}>
+                <Button onClick={() => {pressButton = 2; form.submit()}}>
                     确认修改
                 </Button>
             </div>
@@ -175,10 +172,10 @@ function deleteButton(id, title) {
             children: <div> 您是否要删除Template: {title} </div>,
             footer: (
                 <>
-                    <Button
-                        style={{
-                            background: "rgba(187,222,214,0.76)",
-                        }} onClick={() => CloseDialog(title)}> 取消 </Button>
+                    <Button 
+ style={{
+                            background:"rgba(187,222,214,0.76)",
+                        }}  onClick={() => CloseDialog(title)}> 取消 </Button>
                     <Button onClick={() => {
                         deleteTemplate(id, title)
                     }}>
@@ -187,7 +184,7 @@ function deleteButton(id, title) {
                 </>
             ),
             style: {
-                "minWidth": "10px",
+                "min-width":"10px",
             }
         }
     )
@@ -199,7 +196,7 @@ function viewButton(id, title) {
         children: <>  <TemplateForm id={id} title={title} /> </>,
         footer: (<> <Button onClick={() => CloseDialog(title)}>关闭</Button> </>),
         style: {
-            "minWidth": "10px",
+            "min-width":"10px",
         }
     })
 }
@@ -209,7 +206,7 @@ function NewTemplate(props) {
     const form = Form.useForm(FormStrategy.View);
     const onSubmit = React.useCallback(form => {
         const value = form.getSubmitValue()
-
+        
         utils.Fetch("/api/template/add", "POST", JSON.stringify(value), "application/json").then(res => {
             if (res.status !== 200) {
                 res.json().then(res => Notify.error(res.Msg))
@@ -219,7 +216,7 @@ function NewTemplate(props) {
             }
         })
     }, []);
-    const onSubmitFail = () => { Notify.error("有字段为空，表单不合法！") }
+    const onSubmitFail = () => {Notify.error("有字段为空，表单不合法！")}
 
     return (
         <Form
@@ -241,8 +238,8 @@ function NewTemplate(props) {
                 normalizeBeforeSubmit={value => Number(value)}
                 props={{
                     showStepper: true,
-                    min: 1,
-                    max: 4,
+                    min:1,
+                    max:4,
                 }}
             />
             <FormNumberInputField
@@ -251,15 +248,15 @@ function NewTemplate(props) {
                 normalizeBeforeSubmit={value => Number(value)}
                 props={{
                     showStepper: true,
-                    min: 0,
+                    min:0,
                 }}
             />
             <FormSubtasks />
             <div className="zent-form-actions">
-                <Button
-                    style={{
-                        background: "rgba(187,222,214,0.76)",
-                    }} onClick={() => { form.submit() }}>
+                <Button 
+ style={{
+                            background:"rgba(187,222,214,0.76)",
+                        }}  onClick={() => {form.submit()}}>
                     提交
                 </Button>
             </div>
@@ -277,4 +274,4 @@ function TemplateCard(props) {
     )
 }
 
-export { NewTemplate, TemplateCard }
+export {NewTemplate, TemplateCard}
