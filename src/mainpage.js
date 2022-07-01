@@ -3,6 +3,7 @@ import {Button, Card, Affix} from "zent";
 import * as utils from "./utils";
 import {User, UserLoggedIn} from "./User";
 import {TodoPage} from "./TodoPage";
+import Icon from "./icon.png";
 import DonePage from "./DonePage"
 import TemplatePage from "./TemplatePage"
 import Progress from "./Clock";
@@ -31,7 +32,13 @@ class MainPage extends React.Component {
     Header() {
         return (
             <div>
-                    <Card>{this.state.isLoggedIn ? (<><UserLoggedIn  refresher={() => this.refresh()} userName={this.state.userName} /> </>) : (<> <User refresher={() => this.refresh()}/> </>)}</Card>
+                    <Card>
+                        <>
+                            {this.state.isLoggedIn ? (<><UserLoggedIn  refresher={() => this.refresh()} userName={this.state.userName} /> </>) : (<> <User refresher={() => this.refresh()}/> </>)}
+                            <img style={{width:"auto", maxHeight:'50px',right:'10px',position:'absolute'}} src={Icon}></img>
+                        </>
+                    </Card>
+                    
             </div>
         )
     }
@@ -88,7 +95,6 @@ class MainPage extends React.Component {
     render() {
         return (
             <>
-                {/*<img style={{maxWidth:"100%", height:'auto'}} src={TitlePic}></img>*/}
                 {this.Header()}
                 {this.Body()}
                 {this.Tail()}

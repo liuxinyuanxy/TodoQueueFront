@@ -6,14 +6,12 @@ COPY . $WORKDIR
 
 WORKDIR $WORKDIR
 
-RUN npm ci 
+RUN npm ci --legacy-peer-deps
 
 RUN npm run build
 
 FROM nginx:alpine
 
-COPY --from=builder $WORKDIR/build /usr/share/nginx/html
+COPY --from=builder $WORKDIR/build/* /usr/share/nginx/html
 
-EXPOSE 9404
-
-COPY build 
+EXPOSE 80

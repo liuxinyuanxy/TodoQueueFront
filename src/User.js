@@ -258,7 +258,7 @@ function UserLoggedIn(props) {
        return (
         <>
             <> 欢迎您： {props.userName}
-                <Button className={"inCardButton1"} onClick={changeUserName}> 修改用户名 </Button>
+                <Button className={"inCardButton2"} onClick={changeUserName}> 修改用户名 </Button>
             </>
         </>
     )
