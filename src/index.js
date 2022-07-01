@@ -9,7 +9,7 @@ import './my.css'
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <Mainpage/>
+    <Mainpage />
   </React.StrictMode>
 );
 

@@ -14,7 +14,7 @@ import {
     ValidateOption,
     FormError,
 } from 'zent';
-import React, {useCallback} from "react";
+import React, { useCallback } from "react";
 import 'zent/css/index.css';
 import * as utils from "./utils";
 let refresher
@@ -68,30 +68,30 @@ function FormSubtasks() {
                 添加子任务
             </Button>
             <ul>
-                {model.children.map((child, index) =>
-                {
+                {model.children.map((child, index) => {
                     return (
-                    <li key={child.id} className="Subtask">
-                        <FormInputField
-                            model={child}
-                            label={`子任务${index + 1}：`}
-                            validators={[Validators.required('请填写子任务')]}
-                            props={{
-                                width: "30%",
-                            }}
-                            after={<Button
-                                className="del-btn"
-                                onClick={() => {
-                                    model.splice(index, 1);
-                                    model.validate();
+                        <li key={child.id} className="Subtask">
+                            <FormInputField
+                                model={child}
+                                label={`子任务${index + 1}：`}
+                                validators={[Validators.required('请填写子任务')]}
+                                props={{
+                                    width: "30%",
                                 }}
-                            >
-              删除该子任务
-            </Button>}
-                        />
+                                after={<Button
+                                    className="del-btn"
+                                    onClick={() => {
+                                        model.splice(index, 1);
+                                        model.validate();
+                                    }}
+                                >
+                                    删除该子任务
+                                </Button>}
+                            />
 
-                    </li>
-                )})}
+                        </li>
+                    )
+                })}
             </ul>
             <FormError style={{ marginLeft: 128 }}>{model.error?.message}</FormError>
         </>
@@ -101,7 +101,7 @@ function TodoForm(props) {
     const form = Form.useForm(FormStrategy.View);
     const onSubmit = React.useCallback(form => {
         const value = form.getSubmitValue()
-        
+
         utils.Fetch("/api/todo/change?id=" + props.id, "POST", JSON.stringify(value), "application/json").then(res => {
             if (res.status !== 200) {
                 res.json().then(res => Notify.error(res.Msg))
@@ -112,7 +112,7 @@ function TodoForm(props) {
             }
         })
     }, []);
-    const onSubmitFail = () => {Notify.error("有字段为空，表单不合法！")}
+    const onSubmitFail = () => { Notify.error("有字段为空，表单不合法！") }
     utils.Fetch("/api/todo/get?id=" + props.id, "GET").then(res => {
         if (res.status !== 200) {
             res.json().then(res => Notify.error(res.Msg))
@@ -145,10 +145,10 @@ function TodoForm(props) {
             <FormSpent />
             <FormSubtasks />
             <div className="zent-form-actions">
-                <Button 
- style={{
-                            background:"rgba(187,222,214,0.76)",
-                        }}  onClick={() => {form.submit()}}>
+                <Button
+                    style={{
+                        background: "rgba(187,222,214,0.76)",
+                    }} onClick={() => { form.submit() }}>
                     提交
                 </Button>
             </div>
@@ -174,10 +174,10 @@ function deleteButton(id, title) {
             children: <div> 您是否要删除Todo: {title} </div>,
             footer: (
                 <>
-                    <Button 
- style={{
-                            background:"rgba(187,222,214,0.76)",
-                        }}  onClick={() => CloseDialog(title)}> 取消 </Button>
+                    <Button
+                        style={{
+                            background: "rgba(187,222,214,0.76)",
+                        }} onClick={() => CloseDialog(title)}> 取消 </Button>
                     <Button onClick={() => {
                         deleteTodo(id, title)
                     }}>
@@ -186,7 +186,7 @@ function deleteButton(id, title) {
                 </>
             ),
             style: {
-                "min-width":"10px",
+                "minWidth": "10px",
             }
         }
     )
@@ -198,7 +198,7 @@ function editButton(id, title) {
         children: <>  <TodoForm id={id} title={title} /> </>,
         footer: (<> <Button onClick={() => CloseDialog(title)}>关闭</Button> </>),
         style: {
-            "min-width":"10px",
+            "minWidth": "10px",
         }
     })
 }
@@ -207,12 +207,12 @@ function TodoCard(props) {
     refresher = props.refresher
     return (
         <Card style={{
-            background:props.color,
+            background: props.color,
         }}><div>
-            {props.title}
-            <Button className={"inCardButton2"} onClick={editButton(props.id, props.title)}> 编辑 </Button>
-            <Button className={"inCardButton1"} onClick={deleteButton(props.id, props.title)}> 删除 </Button>
-        </div> </Card>
+                {props.title}
+                <Button className={"inCardButton2"} onClick={editButton(props.id, props.title)}> 编辑 </Button>
+                <Button className={"inCardButton1"} onClick={deleteButton(props.id, props.title)}> 删除 </Button>
+            </div> </Card>
     )
 }
 
@@ -220,7 +220,7 @@ function NewTodo(props) {
     const form = Form.useForm(FormStrategy.View);
     const onSubmit = React.useCallback(form => {
         const value = form.getSubmitValue();
-        
+
         utils.Fetch("/api/todo/new", "POST", JSON.stringify(value), "application/json").then(res => {
             if (res.status !== 200) {
                 res.json().then(res => Notify.error(res.Msg))
@@ -232,9 +232,8 @@ function NewTodo(props) {
             }
         })
     }, []);
-    const onSubmitFail = () => {Notify.error("有字段为空，表单不合法！")}
-    if (props.id !== undefined)
-    {
+    const onSubmitFail = () => { Notify.error("有字段为空，表单不合法！") }
+    if (props.id !== undefined) {
         utils.Fetch("/api/template/get?tid=" + props.id, "GET").then(res => {
             if (res.status !== 200) {
                 res.json().then(res => Notify.error(res.Msg))
@@ -267,8 +266,8 @@ function NewTodo(props) {
                 normalizeBeforeSubmit={value => Number(value)}
                 props={{
                     showStepper: true,
-                    min:1,
-                    max:4,
+                    min: 1,
+                    max: 4,
                 }}
             />
             <FormNumberInputField
@@ -277,15 +276,15 @@ function NewTodo(props) {
                 normalizeBeforeSubmit={value => Number(value)}
                 props={{
                     showStepper: true,
-                    min:0,
+                    min: 0,
                 }}
             />
             <FormSubtasks />
             <div className="zent-form-actions">
-                <Button 
- style={{
-                            background:"rgba(187,222,214,0.76)",
-                        }}  onClick={() => {form.submit()}}>
+                <Button
+                    style={{
+                        background: "rgba(187,222,214,0.76)",
+                    }} onClick={() => { form.submit() }}>
                     提交
                 </Button>
             </div>
@@ -293,4 +292,4 @@ function NewTodo(props) {
     );
 }
 
-export {NewTodo, TodoCard}
+export { NewTodo, TodoCard }

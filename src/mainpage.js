@@ -1,9 +1,9 @@
 import React from "react";
-import {Button, Card, Affix} from "zent";
+import { Button, Card, Affix } from "zent";
 import * as utils from "./utils";
 import User from "./User";
 import TitlePic from "./title.jpg";
-import {TodoPage} from "./TodoPage";
+import { TodoPage } from "./TodoPage";
 import DonePage from "./DonePage"
 import TemplatePage from "./TemplatePage"
 import Progress from "./Clock";
@@ -20,11 +20,10 @@ class MainPage extends React.Component {
     }
     refresh() {
         utils.Fetch("/api/user/get", "GET").then(res => {
-            if (res.status === 200)
-            {
-                this.setState({isLoggedIn:true})
+            if (res.status === 200) {
+                this.setState({ isLoggedIn: true })
                 res.json().then(res => {
-                    this.setState({userName:res.Msg.Nickname})
+                    this.setState({ userName: res.Msg.Nickname })
                 })
             }
         })
@@ -32,7 +31,7 @@ class MainPage extends React.Component {
     Header() {
         return (
             <div>
-                    <Card>{this.state.isLoggedIn ? (<> 欢迎您： {this.state.userName}</>) : (<> <User refresher={() => this.refresh()}/> </>)}</Card>
+                <Card>{this.state.isLoggedIn ? (<> 欢迎您： {this.state.userName}</>) : (<> <User refresher={() => this.refresh()} /> </>)}</Card>
             </div>
         )
     }
@@ -41,48 +40,48 @@ class MainPage extends React.Component {
             return (<></>)
         switch (this.state.page) {
             case 1:
-                return (<> <TodoPage/> </>)
+                return (<> <TodoPage /> </>)
             case 2:
-                return (<> <Progress/> </>)
+                return (<> <Progress /> </>)
             case 3:
-                return  (<> <TemplatePage/> </>)
+                return (<> <TemplatePage /> </>)
             case 4:
-                return  (<> <DonePage/> </>)
+                return (<> <DonePage /> </>)
         }
     }
     Tail() {
         return (
             <Affix offsetBotton={0}>
-            <div style={{
-                position: 'fixed',
-                height:"7%",
-                bottom: "0",
-                width:"100%",
-            }}>
-                {this.state.page !== 1 ?  <Button onClick={() => (this.setState({page:1}))} style={{
-                        margin:"0",
-                        width:"33.4%",
-                        height:"100%",
-                    background:"#8ac6d1",
-                    }}> Todo  </Button> : <Button onClick={() => (this.setState({page:4}))} style={{
-                    margin:"0",
-                    width:"33.4%",
-                    height:"100%",
-                    background:"#8ac6d1",
-                }}>  已完成 </Button>}
-                    <Button  onClick={() => (this.setState({page:2}))} style={{
-                        margin:"0",
-                        width:"33.3%",
-                        height:"100%",
-                        background:"#C3AED6",
+                <div style={{
+                    position: 'fixed',
+                    height: "7%",
+                    bottom: "0",
+                    width: "100%",
+                }}>
+                    {this.state.page !== 1 ? <Button onClick={() => (this.setState({ page: 1 }))} style={{
+                        margin: "0",
+                        width: "33.4%",
+                        height: "100%",
+                        background: "#8ac6d1",
+                    }}> Todo  </Button> : <Button onClick={() => (this.setState({ page: 4 }))} style={{
+                        margin: "0",
+                        width: "33.4%",
+                        height: "100%",
+                        background: "#8ac6d1",
+                    }}>  已完成 </Button>}
+                    <Button onClick={() => (this.setState({ page: 2 }))} style={{
+                        margin: "0",
+                        width: "33.3%",
+                        height: "100%",
+                        background: "#C3AED6",
                     }}> Clock  </Button>
-                    <Button  onClick={() => (this.setState({page:3}))} style={{
-                        margin:"0",
-                        width:"33.3%",
-                        height:"100%",
-                        background:"#8ac6d1",
+                    <Button onClick={() => (this.setState({ page: 3 }))} style={{
+                        margin: "0",
+                        width: "33.3%",
+                        height: "100%",
+                        background: "#8ac6d1",
                     }}> 模板  </Button>
-            </div>
+                </div>
             </Affix>
         )
     }

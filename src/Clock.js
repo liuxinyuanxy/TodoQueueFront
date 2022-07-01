@@ -82,7 +82,7 @@ class Progress extends React.Component {
 
     duration() {
         const lastWorkT = this.state.todoinfo.lastWorkT
-        const spentT = this.state.spentT
+        const spentT = this.state.todoinfo.spentT
         const nowT = this.state.date.toUTCString()
         if (lastWorkT === undefined) {
             return {
@@ -108,9 +108,9 @@ class Progress extends React.Component {
                 <Button
                     block
                     size="large"
-                        style={{
-                            background: "#b1bce6",
-                        }}
+                    style={{
+                        background: "#b1bce6",
+                    }}
                     onClick={() => this.handleStart()}>
                     Start
                 </Button>
@@ -123,17 +123,17 @@ class Progress extends React.Component {
             <div className="buttons">
                 <Button
                     size="large"
-                        style={{
-                            background:"rgba(187,222,214,0.76)",
-                        }}
+                    style={{
+                        background: "rgba(187,222,214,0.76)",
+                    }}
                     onClick={() => this.handleSuspend()}>
                     Suspend
                 </Button>
                 <Button
                     size="large"
-                        style={{
-                            background:"rgba(187,222,214,0.76)",
-                        }}
+                    style={{
+                        background: "rgba(187,222,214,0.76)",
+                    }}
                     onClick={() => this.handleFinish()}>
                     - Finish -
                 </Button>
@@ -227,7 +227,7 @@ async function queryProgress() {
         subtasks: msg.Subtasks.slice(),
         spentT: msg.SpentT,
         estimatedT: msg.EstimatedT,
-        lastWorkT: msg.LastWorkT,
+        lastWorkT: msg.LastWorkT + ' UTC',
         ddl: msg.EstimatedT
     }
 
