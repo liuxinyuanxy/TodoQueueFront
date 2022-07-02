@@ -117,7 +117,6 @@ function LoginForm() {
     const onSubmit = React.useCallback(form => {
         const value = form.getSubmitValue()
         Notify.info("正在提交，请稍候")
-        console.log(value)
         utils.Fetch(`/api/user/login`, 'POST', utils.GenerateFormDataFromObject(value)).then(res => {
             if (res.status !== 200) {
                 res.json().then(res => Notify.error(res.Msg))
@@ -213,7 +212,6 @@ function ChangeForm() {
     const onSubmit = React.useCallback(form => {
         const value = form.getSubmitValue()
         Notify.info("正在提交，请稍候")
-        console.log(value)
         utils.Fetch(`/api/user/change/name?name=` + value.name, 'POST').then(res => {
             if (res.status !== 200) {
                 res.json().then(res => Notify.error(res.Msg))

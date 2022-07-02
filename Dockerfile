@@ -18,4 +18,6 @@ RUN rm -rf ./*
 
 COPY --from=builder /todoq/build ./
 
+RUN rm ./static/js/*.map
+
 EXPOSE 80
